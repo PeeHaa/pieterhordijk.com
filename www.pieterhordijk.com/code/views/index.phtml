@@ -1,0 +1,15 @@
+<?php
+
+$s = '';
+
+$s.= '<h1>PieterHordijk.com</h1>'.N;
+
+$this->setSlot('pagetitle', null);
+$this->setSlot('meta.description', '');
+$this->setSlot('meta.keywords', '');
+$this->setSlot('meta.author', 'Pieter Hordijk');
+$this->setSlot('meta.revisit-after', '1 month');
+
+$this->setSlot('content', $s);
+
+print($this->render('base/page.phtml'));
