@@ -1,0 +1,27 @@
+<?php
+
+//if ($this->user) {
+if (1 == 2) {
+    $authMenu = array('img' => '/style/user.png',
+                      'alt' => 'Log out',
+                      'title' => 'Log out' . $this->user->username,
+                      );
+} else {
+    $authMenu = array('img' => '/style/user.png',
+                      'alt' => 'Log in',
+                      'title' => 'Log in',
+                      );
+}
+
+$s = '';
+
+$s.= '<ul class="usermenu">'.N;
+$s.= '  <li>'.N;
+$s.= '    <img src="' . $authMenu['img'] . '" alt="' . $authMenu['alt'] . '" title="' . $authMenu['title'] . '">'.N;
+$s.= '  </li>'.N;
+$s.= '  <li class="last">'.N;
+$s.= '    <a href="' . $this->url() . '">' . $authMenu['title'] . '</a>'.N;
+$s.= '  </li>'.N;
+$s.= '</ul>'.N;
+
+print($s);
