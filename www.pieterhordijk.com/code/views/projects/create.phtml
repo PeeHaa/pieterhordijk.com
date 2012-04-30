@@ -1,0 +1,65 @@
+<?php
+
+$this->setSlot('form', $this->form);
+
+$s = '';
+
+$s.= '<h2>Create a new project</h2>'.N;
+
+$s.= '<div class="table-heading">Some title</div>'.N;
+$s.= '<form action="" method="post">'.N;
+$this->setSlot('form.field', 'csrf-token');
+$s.= $this->render('form/render_formfield.phtml');
+$s.= '<table>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Title *</th>'.N;
+$this->setSlot('form.field', 'title');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Slug *</th>'.N;
+$this->setSlot('form.field', 'slug');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Intro</th>'.N;
+$this->setSlot('form.field', 'intro');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Description</th>'.N;
+$this->setSlot('form.field', 'description');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>GitHub</th>'.N;
+$this->setSlot('form.field', 'github');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Download</th>'.N;
+$this->setSlot('form.field', 'download');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Version</th>'.N;
+$this->setSlot('form.field', 'version');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>&nbsp;</th>'.N;
+$this->setSlot('form.field', 'submit');
+$s.= '    <td>' . $this->render('form/render_formfield.phtml') . '</td>'.N;
+$s.= '  </tr>'.N;
+$s.= '</table>'.N;
+$s.= '</form>'.N;
+
+$this->setSlot('pagetitle', null);
+$this->setSlot('meta.description', '');
+$this->setSlot('meta.keywords', '');
+$this->setSlot('meta.author', 'Pieter Hordijk');
+$this->setSlot('meta.revisit-after', '1 month');
+
+$this->setSlot('content', $s);
+
+print($this->render('base/page.phtml'));
