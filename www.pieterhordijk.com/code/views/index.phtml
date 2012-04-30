@@ -2,7 +2,15 @@
 
 $s = '';
 
-$s.= '<h1>PieterHordijk.com</h1>'.N;
+$s.= '<h2>Description</h2>'.N;
+
+$s.= '<div class="table-heading">Some title</div>'.N;
+$s.= '<table>'.N;
+$s.= '  <tr>'.N;
+$s.= '    <th>Nicknames</th>'.N;
+$s.= '    <td><input type="text" name="nickname" placeholder="Some placeholder" value="Testje"></td>'.N;
+$s.= '  </tr>'.N;
+$s.= '</table>'.N;
 
 $this->setSlot('pagetitle', null);
 $this->setSlot('meta.description', '');

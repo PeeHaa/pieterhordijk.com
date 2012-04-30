@@ -55,7 +55,10 @@ $s.= $this->render('base/header.phtml');
 $s.= '    </header>'.N;
 
 $s.= '    <div id="body">'.N;
+$s.= $this->render('base/aside.phtml');
+$s.= '      <div id="content">'.N;
 $s.= $content;
+$s.= '      </div>'.N;
 $s.= '    </div>'.N;
 $s.= '    <footer>'.N;
 $s.= $this->render('base/footer.phtml');
