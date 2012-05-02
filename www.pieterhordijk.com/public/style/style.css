@@ -22,7 +22,8 @@ header .usermenu li a { color: white; text-decoration: none; }
 header .usermenu .loginform { display: none; }
 header .usermenu form { display: inline; }
 header .usermenu form input { margin: 3px; padding: 3px; font-size: 9px; display: inline; }
-header .usermenu form input[type='submit'] { color: white; text-decoration: none; text-shadow: 0px 1px 1px rgba(0, 0, 00, 0.75); background: none; }
+header .usermenu form input[type='submit'] { color: white; background: url('key_go.png'); text-shadow: 0px 1px 1px rgba(0, 0, 00, 0.75); width: 18px; height: 18px; border-radius: 3px; }
+header .usermenu form .formfield-container { display: inline; }
 
 header .mainmenu { width: 100%; bottom: 37px; height: 59px; border-top: 1px solid #7A9CC0; border-bottom: 1px solid #04172B; padding-top: 29px; background: #366FAC; background: -moz-linear-gradient(top, rgba(54, 111, 172, 1) 0%, rgba(24, 75, 130, 1) 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(54, 111, 172, 1)), color-stop(100%, rgba(24, 75, 130, 1))); background: -webkit-linear-gradient(top, rgba(54, 111, 172, 1) 0%, rgba(24, 75, 130, 1) 100%); background: -o-linear-gradient(top, rgba(54, 111, 172, 1) 0%, rgba(24, 75, 130, 1) 100%); background: -ms-linear-gradient(top, rgba(54, 111, 172, 1) 0%, rgba(24, 75, 130, 1) 100%); background: linear-gradient(top, rgba(54, 111, 172, 1) 0%, rgba(24, 75, 130, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#366fac', endColorstr='#184b82',GradientType=0 ); }
 header .mainmenu li { display: inline-block; }
@@ -58,13 +59,14 @@ header h1 { float: left; color: white; font-size: 17px; line-height: 37px; margi
 #body aside .menu a:hover { background: url('side-menu-hover.png') repeat-x #f7f7f7; color: white; text-shadow: 0px 1px 1px rgba(0, 0, 00, 0.75); }
 
 #content { padding: 20px; overflow: hidden; }
+#content a { color: #222222; }
 #content h2 { margin-top: 0; padding-bottom: 6px; margin-bottom: 4px; width: 100%; background: url('title-underline.png') repeat-x bottom; font-size: 100%; font-weight: normal; }
 #content .table-heading { background: #78B1ED; background: -moz-linear-gradient(top, rgba(120, 177, 237, 1) 0%, rgba(65, 123, 181, 1) 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(120, 177, 237, 1)), color-stop(100%, rgba(65, 123, 181, 1))); background: -webkit-linear-gradient(top, rgba(120, 177, 237, 1) 0%, rgba(65, 123, 181, 1) 100%); background: -o-linear-gradient(top, rgba(120, 177, 237, 1) 0%, rgba(65, 123, 181, 1) 100%); background: -ms-linear-gradient(top, rgba(120, 177, 237, 1) 0%, rgba(65, 123, 181, 1) 100%); background: linear-gradient(top, rgba(120, 177, 237, 1) 0%, rgba(65, 123, 181, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#78b1ed', endColorstr='#417bb5',GradientType=0 ); height: 34px; line-height: 34px; border: 1px solid #2B5177; border-radius: 3px 3px 0 0; border-bottom: none; box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5); font-size: 13px; color: white; text-shadow: 0 1px 0 black; font-weight: 700; }
 #content table { width: 100%; border-collapse: collapse; }
 #content table th { text-align: left; border-right: 1px solid #E7E7E7; padding: 0% 8% 0 2%; width: 16%; color: #666; font-size: 12px; font-weight: 700; text-shadow: 0 1px 0 white; }
 #content table th, #content table td { border-bottom: 1px solid #E7E7E7; border-left: 1px solid #E7E7E7; border-bottom: 1px solid #E7E7E7; border-top: none; margin: 0; background: #F6F6F6; background: -moz-linear-gradient(top, rgba(246, 246, 246, 1) 0%, rgba(241, 241, 241, 1) 100%); background: linear-gradient(top, rgba(246, 246, 246, 1) 0%, rgba(241, 241, 241, 1) 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#f1f1f1',GradientType=0 ); }
 #content table td { width: 74%; border-left: none; }
-#content table input[type='password'], #content table input[type='text'], #content table textarea { width: 96%; max-width: 96%; margin: 5px 1%; padding: 5px 1%; }
+#content table input[type='password'], #content table input[type='text'], #content table textarea { width: 96%; max-width: 96%; min-width: 96%; margin: 5px 1%; padding: 5px 1%; }
 
 footer { color: #f4f4f4; font-size: 12px; text-shadow: 0 1px 0 #353535; width: 100%; height: 37px; line-height: 36px; float: left; position: relative; z-index: 101; border-bottom: 1px solid #353535; background: #353535; background: -moz-linear-gradient(top, #353535 0%, #101010 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #353535), color-stop(100%, #101010)); background: -webkit-linear-gradient(top, #353535 0%, #101010 100%); background: -o-linear-gradient(top, #353535 0%, #101010 100%); background: -ms-linear-gradient(top, #353535 0%, #101010 100%); background: linear-gradient(top, #353535 0%, #101010 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#353535', endColorstr='#101010',GradientType=0 ); }
 footer p { margin: 0; padding: 0; float: left; }

@@ -15,15 +15,23 @@ if (1 == 2) {
 
 $s = '';
 
+
 $s.= '<ul class="usermenu">'.N;
 $s.= '  <li>'.N;
 $s.= '    <img src="' . $authMenu['img'] . '" alt="' . $authMenu['alt'] . '" title="' . $authMenu['title'] . '">'.N;
 $s.= '  </li>'.N;
-$s.= '  <li class="loginform">'.N;
+$s.= '  <li class="loginform" style="display: inline;">'.N;
+$loginForm = new User_Login_Form();
+$this->setSlot('form', $loginForm);
 $s.= '    <form action="' . $this->url('user/login', array()) . '" method="post">'.N;
-$s.= '      <input type="text" name="username" placeholder="Username">'.N;
-$s.= '      <input type="password" name="password" placeholder="Password">'.N;
-$s.= '      <input type="submit" name="submit" value="Login">'.N;
+$this->setSlot('form.field', 'csrf-token');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'username');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'password');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'submit');
+$s.= $this->render('form/render_formfield.phtml').N;
 $s.= '    </form>'.N;
 $s.= '  </li>'.N;
 $s.= '  <li class="last login">'.N;

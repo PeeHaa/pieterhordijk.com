@@ -33,6 +33,21 @@ class UserModel extends MFW_Model
         return $this->table->insert($data);
     }
 
+    public function loginUser(User_Login_Form $form)
+    {
+        $recordset = $this->table->select('username, password',
+                                          $this->table->where('lower(username) = ?', strtolower($form->getField('username')->getData())));
+
+        if (!$recordset || $this->validatePassword($form->getField('password')->getData(), $recordset[0]['password'])) {
+            return false;
+        }
+
+        // this should be moved to the user class in the lib
+        $_SESSION['MFW_user'] = array($recordset[0]['username']);
+
+        return true;
+    }
+
     protected function cryptPassword($password, $type = 'blowfish')
     {
         $cryptType = '';
@@ -86,28 +101,5 @@ class UserModel extends MFW_Model
         }
 
         return false;
-    }
-
-    protected function parseRecordset($recordset)
-    {
-        $projects = array();
-        foreach($recordset as $record) {
-            $project = new StdClass();
-
-            $project->id = $record['id'];
-            $project->username = $record['username'];
-            $project->title = $record['title'];
-            $project->slug = $record['slug'];
-            $project->intro = $record['intro'];
-            $project->description = $record['description'];
-            $project->github = $record['github'];
-            $project->download = $record['download'];
-            $project->version = $record['version'];
-            $project->timestamp = $record['timestamp'];
-
-            $projects[$project->id] = $project;
-        }
-
-        return $projects;
     }
 }
