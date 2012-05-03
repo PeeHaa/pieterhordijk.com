@@ -17,7 +17,7 @@ class Project_Create_Form extends MFW_Form
     }
 }
 
-class Create_User_Form extends MFW_Form
+class User_Register_Form extends MFW_Form
 {
     function __construct()
     {
@@ -26,7 +26,7 @@ class Create_User_Form extends MFW_Form
         $this->addField('username', new MFW_Form_Field_Text(array('required'=>true)));
         $this->addField('password', new MFW_Form_Field_Password(array('required'=>true)));
         $this->addField('email', new MFW_Form_Field_Email(array('required'=>true)));
-        $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'')));
+        $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'Register')));
     }
 }
 

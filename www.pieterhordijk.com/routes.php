@@ -9,6 +9,8 @@ $routes = array(
                                              'user/register', array()),
 'user/login'                        => array('/user/login/:json',
                                              'user/login', array('json' => false)),
+'user/logout'                       => array('/user/logout',
+                                             'user/logout', array()),
 
 'projects'                          => array('/projects',
                                              'project/index', array()),

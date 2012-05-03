@@ -40,6 +40,7 @@
     }, 500);
 
     var requestData = $form.serialize();
+    requestData+= '&submit=submit';
 
     $username.attr('disabled', 'disabled');
     $password.attr('disabled', 'disabled');
@@ -48,8 +49,9 @@
       url: $form.attr('action') + '/json',
       data: requestData,
       type: $form.attr('method'),
+      dataType: 'json',
       error: function(jqHr, status, error) {
-        $submit.css('background-image', '/style/key_delete.png');
+        $submit.css('background-image', 'url(/style/key_delete.png)');
         $username.removeAttr('disabled');
         $password.removeAttr('disabled').val('');
 
@@ -57,7 +59,7 @@
           opacity: 1
         }, 500, function() {
             setTimeout(function() {
-              $submit.css('background-image', '/style/key_go.png');
+              $submit.css('background-image', 'url(/style/key_go.png)');
             }, 2000);
         });
       },
@@ -66,7 +68,7 @@
           window.location.href = window.location.href;
           return;
         } else {
-          $submit.css('background-image', '/style/key_delete.png');
+          $submit.css('background-image', 'url(/style/key_delete.png)');
           $username.removeAttr('disabled');
           $password.removeAttr('disabled').val('');
 
@@ -74,7 +76,7 @@
             opacity: 1
           }, 500, function() {
               setTimeout(function() {
-                $submit.css('background-image', '/style/key_go.png');
+                $submit.css('background-image', 'url(/style/key_go.png)');
               }, 2000);
           });
         }

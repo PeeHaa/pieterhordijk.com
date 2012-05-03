@@ -2,12 +2,12 @@
 
 class UserController extends MFW_Controller
 {
-    function registerAction()
+    public function registerAction()
     {
         $this->getRequest();
         $params = $this->getRequestParams();
 
-        $registerFrom = new Create_User_Form();
+        $registerFrom = new User_Register_Form();
 
         if (isset($params['submit'])) {
             $registerFrom->clean($params);
@@ -26,7 +26,7 @@ class UserController extends MFW_Controller
         $this->render('user/register.phtml');
     }
 
-    function loginAction()
+    public function loginAction()
     {
         $this->getRequest();
         $params = $this->getRequestParams();
@@ -38,16 +38,33 @@ class UserController extends MFW_Controller
 
             if ($loginForm->isValid()) {
                 $userModel = $this->view->modelFactory->getModel('User');
-                $result = $userModel->login($loginForm);
+                $result = $userModel->login($loginForm->getField('username')->getData(), $loginForm->getField('password')->getData());
 
-                if ($result === true && $loginForm->getField('json')->getData() == 'json') {
-                    print(json_encode(array('result'=>'success')));
-                } elseif ($result === false && $loginForm->getField('json')->getData() == 'json') {
-                    print(json_encode(array('result'=>'failed')));
-                } elseif ($result === true) {
-                    $this->redirect($this->url('index', array()));
+                $jsonEnabled = false;
+                if (isset($params['json']) && $params['json'] == 'json') {
+                    $jsonEnabled = true;
+                }
+
+                if ($jsonEnabled) {
+                    if ($result === true) {
+                        print(json_encode(array('result'=>'success')));
+                    } else {
+                        print(json_encode(array('result'=>'failed')));
+                    }
+                } else {
+                    if ($result === true) {
+                        $this->redirect($this->url('index', array()));
+                    }
                 }
             }
         }
+    }
+
+    public function logoutAction()
+    {
+        $userModel = $this->view->modelFactory->getModel('User');
+        $userModel->logout();
+
+        $this->redirect($this->url('index', array()));
     }
 }

@@ -1,0 +1,18 @@
+<?php
+
+$s = '';
+
+$loginForm = new User_Login_Form();
+$this->setSlot('form', $loginForm);
+$s.= '    <form action="' . $this->url('user/login', array()) . '" method="post">'.N;
+$this->setSlot('form.field', 'csrf-token');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'username');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'password');
+$s.= $this->render('form/render_formfield.phtml').N;
+$this->setSlot('form.field', 'submit');
+$s.= $this->render('form/render_formfield.phtml').N;
+$s.= '    </form>'.N;
+
+print($s);

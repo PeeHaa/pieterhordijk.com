@@ -42,8 +42,8 @@ $view = new MFW_View($router, MFW_SITE_PATH.'/code/views', $modelFactory);
 /**
  * Instantiate the user
  */
-$user = new MFW_User();
-$view->user = $user->getCurrentUser();
+$user = new MFW_Auth_User(new MFW_Db_Table($databaseConnection));
+$view->user = $user->getAuthenticatedUser();
 
 /**
  * Create an instance of the front controller

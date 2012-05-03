@@ -1,12 +1,10 @@
 <?php
 
-class UserModel extends MFW_Model
+class UserModel extends MFW_Auth_User
 {
     public function __construct(MFW_Db_Table $table)
     {
-        $table->setTable('users');
-
-        $this->table = $table;
+        parent::__construct($table);
     }
 
     protected function getTableColumnsList()
@@ -14,7 +12,7 @@ class UserModel extends MFW_Model
         return array('username', 'password', 'email');
     }
 
-    public function createUser(Create_User_Form $form)
+    public function createUser(User_Register_Form $form)
     {
         if ($this->doesUserExist($form->getField('username')->getData())) {
             return false;
@@ -33,55 +31,6 @@ class UserModel extends MFW_Model
         return $this->table->insert($data);
     }
 
-    public function loginUser(User_Login_Form $form)
-    {
-        $recordset = $this->table->select('username, password',
-                                          $this->table->where('lower(username) = ?', strtolower($form->getField('username')->getData())));
-
-        if (!$recordset || $this->validatePassword($form->getField('password')->getData(), $recordset[0]['password'])) {
-            return false;
-        }
-
-        // this should be moved to the user class in the lib
-        $_SESSION['MFW_user'] = array($recordset[0]['username']);
-
-        return true;
-    }
-
-    protected function cryptPassword($password, $type = 'blowfish')
-    {
-        $cryptType = '';
-
-        switch($type) {
-            case 'blowfish':
-                $cryptType = '$2a$10$';
-                break;
-
-            default:
-                return false;
-        }
-
-        $salt = $this->getSalt(CRYPT_SALT_LENGTH);
-
-        $cryptPass = crypt($password, $cryptType . $salt);
-
-        return $cryptPass;
-    }
-
-    protected function getSalt($length)
-    {
-        $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789./';
-
-        $salt = '';
-        for($i = 0; $i <= $length; $i ++) {
-            $chars = str_shuffle($chars);
-
-            $salt.= $chars[rand(0,63)];
-        }
-
-        return $salt;
-    }
-
     protected function doesUserExist($username)
     {
         $recordset = $this->table->select('username',
@@ -94,12 +43,32 @@ class UserModel extends MFW_Model
         return false;
     }
 
-    protected function validatePassword($inputPassword, $storedPassword)
+    protected function getUserByUsername($username)
     {
-        if (crypt($inputPassword, $storedPassword) == $storedPassword) {
-            return true;
+        $recordset = $this->table->select($this->getTableColumns(),
+                                          $this->table->where('lower(username) = ?', strtolower($username)));
+
+        if (!$recordset) {
+            return null;
         }
 
-        return false;
+        $users = $this->parseRecordset($recordset);
+        return reset($users);
+    }
+
+    protected function parseRecordset($recordset)
+    {
+        $users = array();
+
+        foreach($recordset as $record) {
+            $user = new StdClass();
+
+            $user->username = $record['username'];
+            $user->email = $record['email'];
+
+            $users[$user->username] = $user;
+        }
+
+        return $users;
     }
 }
