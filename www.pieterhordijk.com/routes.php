@@ -19,4 +19,7 @@ $routes = array(
 'projects/project'                  => array('/projects/:slug',
                                              'project/project', array()),
 
+'page/contact'                      => array('/contact',
+                                             'page/contact', array()),
+
 );
