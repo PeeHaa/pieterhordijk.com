@@ -19,22 +19,15 @@ foreach($projects as $project) {
 
     $classes = array();
 }
-$s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('projects/create', array()) . '">Add new project</a></li>'.N;
+if ($this->user) {
+    $s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('projects/create', array()) . '">Add new project</a></li>'.N;
+}
 $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
+/*
 $s.= '    <li>'.N;
 $s.= '      <a href="#">'.N;
-$s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
-$s.= '         Projects'.N;
-$s.= '      </a>'.N;
-$s.= '      <ul>'.N;
-$s.= '        <li class="active first"><a href="#">MicroFramework</a></li>'.N;
-$s.= '        <li class="last"><a href="#">cv-pls</a></li>'.N;
-$s.= '      </ul>'.N;
-$s.= '    </li>'.N;
-$s.= '    <li>'.N;
-$s.= '      <a href="#">'.N;
-$s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
+$s.= '         <img src="/style/projects.png" alt="Tutorial" title="Tutorials">'.N;
 $s.= '         Tutorials'.N;
 $s.= '      </a>'.N;
 $s.= '      <ul>'.N;
@@ -44,28 +37,31 @@ $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
 $s.= '    <li>'.N;
 $s.= '      <a href="#">'.N;
-$s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
-$s.= '         Lorem'.N;
+$s.= '         <img src="/style/projects.png" alt="Performance tests" title="Performance tests">'.N;
+$s.= '         Performance tests'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
 $s.= '    <li>'.N;
 $s.= '      <a href="#">'.N;
 $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
-$s.= '         Ipsum'.N;
+$s.= '         Sandbox'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
+*/
 $s.= '    <li>'.N;
 $s.= '      <a href="#">'.N;
 $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
 $s.= '         Contact'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
-$s.= '    <li>'.N;
-$s.= '      <a href="' . $this->url('user/register', array()) . '">'.N;
-$s.= '         <img src="/style/projects.png" alt="User register" title="User register">'.N;
-$s.= '         User register'.N;
-$s.= '      </a>'.N;
-$s.= '    </li>'.N;
+if ($this->user) {
+    $s.= '    <li>'.N;
+    $s.= '      <a href="' . $this->url('user/register', array()) . '">'.N;
+    $s.= '         <img src="/style/projects.png" alt="User register" title="User register">'.N;
+    $s.= '         User register'.N;
+    $s.= '      </a>'.N;
+    $s.= '    </li>'.N;
+}
 $s.= '  </ul>'.N;
 $s.= '</div>'.N;
 
