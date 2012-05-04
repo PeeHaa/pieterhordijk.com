@@ -12,7 +12,7 @@ class ProjectModel extends MFW_Model
 
     protected function getTableColumnsList()
     {
-        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'github', 'download', 'version', 'timestamp');
+        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'image', 'github', 'download', 'version', 'timestamp');
     }
 
     public function getProjects()
@@ -34,6 +34,7 @@ class ProjectModel extends MFW_Model
                       'slug' => $form->getField('slug')->getData(),
                       'intro' => $form->getField('intro')->getData(),
                       'description' => $form->getField('description')->getData(),
+                      'image' => $form->getField('image')->getData(),
                       'github' => $form->getField('github')->getData(),
                       'download' => $form->getField('download')->getData(),
                       'version' => $form->getField('version')->getData(),
@@ -55,6 +56,19 @@ class ProjectModel extends MFW_Model
         return false;
     }
 
+    public function getProjectBySlug($slug)
+    {
+        $recordset = $this->table->select($this->getTableColumns(),
+                                          $this->table->where('slug = ?', $slug));
+
+        if (!$recordset) {
+            return array();
+        }
+
+        $projects = $this->parseRecordset($recordset);
+        return reset($projects);
+    }
+
     protected function parseRecordset($recordset)
     {
         $projects = array();
@@ -67,6 +81,7 @@ class ProjectModel extends MFW_Model
             $project->slug = $record['slug'];
             $project->intro = $record['intro'];
             $project->description = $record['description'];
+            $project->image = $record['image'];
             $project->github = $record['github'];
             $project->download = $record['download'];
             $project->version = $record['version'];
