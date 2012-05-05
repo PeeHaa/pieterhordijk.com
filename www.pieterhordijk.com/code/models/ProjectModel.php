@@ -12,7 +12,7 @@ class ProjectModel extends MFW_Model
 
     protected function getTableColumnsList()
     {
-        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'image', 'github', 'download', 'version', 'timestamp');
+        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'keywords', 'image', 'github', 'download', 'version', 'timestamp');
     }
 
     public function getProjects()
@@ -33,6 +33,7 @@ class ProjectModel extends MFW_Model
         $data = array('title' => $form->getField('title')->getData(),
                       'slug' => $form->getField('slug')->getData(),
                       'intro' => $form->getField('intro')->getData(),
+                      'keywords' => $form->getField('keywords')->getData(),
                       'description' => $form->getField('description')->getData(),
                       'image' => $form->getField('image')->getData(),
                       'github' => $form->getField('github')->getData(),
@@ -80,6 +81,7 @@ class ProjectModel extends MFW_Model
             $project->title = $record['title'];
             $project->slug = $record['slug'];
             $project->intro = $record['intro'];
+            $project->keywords = $record['keywords'];
             $project->description = $record['description'];
             $project->image = $record['image'];
             $project->github = $record['github'];

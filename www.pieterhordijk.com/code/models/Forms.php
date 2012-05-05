@@ -8,7 +8,8 @@ class Project_Create_Form extends MFW_Form
 
         $this->addField('title', new MFW_Form_Field_Text(array('required'=>true)));
         $this->addField('slug', new MFW_Form_Field_Text(array('required'=>true)));
-        $this->addField('intro', new MFW_Form_Field_Textarea(array('required'=>false)));
+        $this->addField('intro', new MFW_Form_Field_Textarea(array('required'=>true)));
+        $this->addField('keywords', new MFW_Form_Field_Text(array('required'=>false)));
         $this->addField('description', new MFW_Form_Field_Textarea(array('required'=>false)));
         $this->addField('image', new MFW_Form_Field_File(array('required'=>false,
                                                                'max_size'=>20971520,
