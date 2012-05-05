@@ -1,0 +1,12 @@
+<?php
+
+$s = '';
+
+$s.= 'Contact request sent from the website.'.N.N;
+$s.= 'From: ' . $this->form->getField('name')->getData().N;
+$s.= 'Emailaddress: ' . $this->form->getField('email')->getData().N;
+$s.= 'Subject: ' . $this->form->getField('subject')->getData().N;
+$s.= 'From: ' . $this->form->getField('name')->getData().N.N;
+$s.= $this->form->getField('message')->getData().N;
+
+print($s);

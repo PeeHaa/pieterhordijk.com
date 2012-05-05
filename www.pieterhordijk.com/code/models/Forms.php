@@ -97,7 +97,8 @@ class Contact_Form extends MFW_Form
         $this->addField('name', new MFW_Form_Field_Text(array('required'=>true)));
         $this->addField('email', new MFW_Form_Field_Email(array('required'=>true)));
         $this->addField('subject', new MFW_Form_Field_Text(array('required'=>true)));
-        $this->addField('message', new MFW_Form_Field_Textarea(array('required'=>true)));
+        $this->addField('message', new MFW_Form_Field_Textarea(array('required'=>true,
+                                                                     'attributes'=>array('rows'=>15))));
         $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'Send')));
     }
 }

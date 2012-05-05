@@ -1,0 +1,17 @@
+<?php
+
+$s = '';
+
+$s.= '<h2>Contactform sent</h2>'.N;
+
+$s.= '<p>The contact form is successfully sent.</p>'.N;
+
+$this->setSlot('pagetitle', 'Contact');
+$this->setSlot('meta.description', '');
+$this->setSlot('meta.keywords', 'pieter,hordijk,contact,email');
+$this->setSlot('meta.author', 'Pieter Hordijk');
+$this->setSlot('meta.revisit-after', '1 month');
+
+$this->setSlot('content', $s);
+
+print($this->render('base/page.phtml'));

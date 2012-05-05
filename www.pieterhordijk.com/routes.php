@@ -31,5 +31,7 @@ $routes = array(
                                              'page/not-found', array()),
 'page/contact'                      => array('/contact',
                                              'page/contact', array()),
+'page/contact-success'              => array('contact-success',
+                                             'page/contact-success', array()),
 
 );
