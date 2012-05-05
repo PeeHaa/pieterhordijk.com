@@ -12,7 +12,7 @@ class ProjectModel extends MFW_Model
 
     protected function getTableColumnsList()
     {
-        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'keywords', 'image', 'github', 'download', 'version', 'timestamp');
+        return array('id', 'username', 'title', 'slug', 'intro', 'description', 'keywords', 'image', 'github_username', 'github_repo', 'download', 'version', 'timestamp');
     }
 
     public function getProjects()
@@ -36,7 +36,8 @@ class ProjectModel extends MFW_Model
                       'keywords' => $form->getField('keywords')->getData(),
                       'description' => $form->getField('description')->getData(),
                       'image' => $form->getField('image')->getData(),
-                      'github' => $form->getField('github')->getData(),
+                      'github_username' => $form->getField('github_username')->getData(),
+                      'github_repo' => $form->getField('github_repo')->getData(),
                       'download' => $form->getField('download')->getData(),
                       'version' => $form->getField('version')->getData(),
                       'username' => $username,
@@ -52,7 +53,8 @@ class ProjectModel extends MFW_Model
                       'intro' => $form->getField('intro')->getData(),
                       'keywords' => $form->getField('keywords')->getData(),
                       'description' => $form->getField('description')->getData(),
-                      'github' => $form->getField('github')->getData(),
+                      'github_username' => $form->getField('github_username')->getData(),
+                      'github_repo' => $form->getField('github_repo')->getData(),
                       'download' => $form->getField('download')->getData(),
                       'version' => $form->getField('version')->getData(),
                       );
@@ -113,7 +115,11 @@ class ProjectModel extends MFW_Model
             $project->keywords = $record['keywords'];
             $project->description = $record['description'];
             $project->image = $record['image'];
-            $project->github = $record['github'];
+            $project->github = new StdClass();
+            if ($record['github_username']) {
+                $project->github->username = $record['github_username'];
+                $project->github->repo = $record['github_repo'];
+            }
             $project->download = $record['download'];
             $project->version = $record['version'];
             $project->timestamp = $record['timestamp'];

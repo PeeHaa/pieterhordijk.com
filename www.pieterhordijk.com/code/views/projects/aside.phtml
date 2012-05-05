@@ -16,8 +16,9 @@ if ($this->project->image || $this->project->download) {
 }
 $s.= '    <ul>'.N;
 $s.= '      <li><strong>' . $this->project->title . '</strong></li>'.N;
-if ($this->project->github) {
-    $s.= '      <li><a href="' . $this->project->github . '" target="_blank">Github</a></li>'.N;
+if (property_exists($this->project->github, 'username')) {
+    $githubUrl = 'https://github.com/' . $this->project->github->username . '/' . $this->project->github->repo;
+    $s.= '      <li><a href="' . $githubUrl . '" target="_blank">Github</a></li>'.N;
 }
 if ($this->user) {
     $s.= '      <li><a href="' . $this->url('projects/edit', array('slug' => $this->project->slug)) . '">Edit</a></li>'.N;
@@ -31,10 +32,10 @@ if ($this->project->intro) {
     $s.= '  </div>'.N;
 }
 $s.= '  <ul class="menu">'.N;
-$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)). '">Description</a></li>'.N;
-$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)). '">Documentation</a></li>'.N;
-if ($this->project->github) {
-    $s.= '    <li><a href="#">History</a></li>'.N;
+$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)) . '">Description</a></li>'.N;
+$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)) . '">Documentation</a></li>'.N;
+if (property_exists($this->project->github, 'username')) {
+    $s.= '    <li><a href="' . $this->url('projects/history', array('slug' => $this->project->slug)) . '">History</a></li>'.N;
 }
 $s.= '  </ul>'.N;
 $s.= '</aside>'.N;
