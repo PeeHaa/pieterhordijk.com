@@ -65,6 +65,15 @@ class ProjectModel extends MFW_Model
                                     $this->table->where('id = ?', $form->getField('id')->getData()));
     }
 
+    public function deleteProjectsByIds($ids)
+    {
+        if (!is_array($ids)) {
+            $ids = array($ids);
+        }
+
+        $this->table->delete($this->table->where('id in (??)', $ids));
+    }
+
     protected function doesSlugExist($slug)
     {
         $recordset = $this->table->select('id',

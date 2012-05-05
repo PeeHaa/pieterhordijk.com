@@ -29,7 +29,7 @@ class ProjectController extends MFW_Controller
 
             if ($createForm->isValid()) {
                 $projectModel = $this->view->modelFactory->getModel('Project');
-                $result = $projectModel->createProject($createForm);
+                $result = $projectModel->createProject($createForm, $this->view->user->username);
 
                 if ($result === false) {
                     // slug already exists?
@@ -96,5 +96,26 @@ class ProjectController extends MFW_Controller
         $this->view->project = $project;
         $this->view->form = $editForm;
         $this->render('projects/edit.phtml');
+    }
+
+    function deleteAction()
+    {
+        $this->getRequest();
+        $params = $this->getRequestParams();
+
+        if (!$this->view->user || !isset($params['token']) || $this->view->csrfToken != $params['token']) {
+            $this->redirect($this->url('403', array()));
+        }
+
+        $projectModel = $this->view->modelFactory->getModel('Project');
+        $project = $projectModel->getProjectBySlug($params['slug']);
+
+        if (!$project) {
+            $this->redirect($this->url('index', array()));
+        }
+
+        $projectModel->deleteProjectsByIds($project->id);
+
+        $this->redirect($this->url('projects', array()));
     }
 }
