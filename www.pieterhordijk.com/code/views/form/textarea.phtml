@@ -14,7 +14,7 @@ if ($form->getField($field)->getAttributes()) {
 $s = '';
 $s.= '<div class="formfield-container">'.N;
 $s.= '<textarea name="'.$field.'" '.$attributes.'>'.$form->getField($field)->getInitial().'</textarea>';
-if (!$form->getField($field)->isValid()) {
+if ($form->isSubmitted() && !$form->getField($field)->isValid()) {
     $s.= '<img class="text-error" src="/style/error.png" alt="'.$form->getField($field)->getFirstError().'" title="'.$form->getField($field)->getFirstError().'">'.N;
 }
 $s.= '</div>'.N;
