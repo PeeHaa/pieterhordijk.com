@@ -46,6 +46,11 @@ $user = new MFW_Auth_User(new MFW_Db_Table($databaseConnection));
 $view->user = $user->getAuthenticatedUser();
 
 /**
+ * Instantiate markdown
+ */
+$view->markdown = new Markdown();
+
+/**
  * Create an instance of the front controller
  */
 $frontController = new MFW_Controller_Dispatcher($router, $view, $request);
