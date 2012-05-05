@@ -19,6 +19,7 @@
       $loginform.css('display', 'none');
     } else {
       $loginform.css('display', 'inline');
+      $('input[name="username"]', $loginform).focus();
     }
 
     return false;
