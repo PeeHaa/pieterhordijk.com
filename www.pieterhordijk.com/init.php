@@ -51,6 +51,12 @@ $view->user = $user->getAuthenticatedUser();
 $view->markdown = new Markdown();
 
 /**
+ * Instantiate CSRF token
+ */
+$csrfToken = new MFW_Security_CsrfToken();
+$view->csrfToken = $csrfToken->getToken();
+
+/**
  * Create an instance of the front controller
  */
 $frontController = new MFW_Controller_Dispatcher($router, $view, $request);

@@ -19,6 +19,10 @@ $s.= '      <li><strong>' . $this->project->title . '</strong></li>'.N;
 if ($this->project->github) {
     $s.= '      <li><a href="' . $this->project->github . '" target="_blank">Github</a></li>'.N;
 }
+if ($this->user) {
+    $s.= '      <li><a href="' . $this->url('projects/edit', array('slug' => $this->project->slug)) . '">Edit</a></li>'.N;
+    $s.= '      <li><a href="' . $this->url('projects/delete', array('slug' => $this->project->slug)) . '?token=' . $this->csrfToken . '">Delete</a></li>'.N;
+}
 $s.= '    </ul>'.N;
 $s.= '  </div>'.N;
 if ($this->project->intro) {
