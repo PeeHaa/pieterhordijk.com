@@ -55,7 +55,9 @@ $s.= $this->render('base/header.phtml');
 $s.= '    </header>'.N;
 
 $s.= '    <div id="body">'.N;
-$s.= $this->render('base/aside.phtml');
+if (isset($this->aside)) {
+    $s.= $this->aside;
+}
 $s.= '      <div id="content">'.N;
 $s.= $content;
 $s.= '      </div>'.N;

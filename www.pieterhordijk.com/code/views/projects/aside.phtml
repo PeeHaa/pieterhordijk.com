@@ -1,0 +1,38 @@
+<?php
+
+$s = '';
+
+$s.= '<aside>'.N;
+$s.= '  <div class="info">'.N;
+if ($this->project->image || $this->project->download) {
+    $s.= '    <div class="image">'.N;
+    if ($this->project->image) {
+        $s.= '      <img src="/img/projects/' . $this->project->image . '" alt="' . $this->project->title . '" title="' . $this->project->title . '">'.N;
+    }
+    if ($this->project->download) {
+        $s.= '      <a href="' . $this->project->download . '">Download</a>'.N;
+    }
+    $s.= '    </div>'.N;
+}
+$s.= '    <ul>'.N;
+$s.= '      <li><strong>' . $this->project->title . '</strong></li>'.N;
+if ($this->project->github) {
+    $s.= '      <li><a href="' . $this->project->github . '" target="_blank">Github</a></li>'.N;
+}
+$s.= '    </ul>'.N;
+$s.= '  </div>'.N;
+if ($this->project->intro) {
+    $s.= '  <div class="intro">'.N;
+    $s.= '    <p>' . $this->project->intro . '</p>'.N;
+    $s.= '  </div>'.N;
+}
+$s.= '  <ul class="menu">'.N;
+$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)). '">Description</a></li>'.N;
+$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)). '">Documentation</a></li>'.N;
+if ($this->project->github) {
+    $s.= '    <li><a href="#">History</a></li>'.N;
+}
+$s.= '  </ul>'.N;
+$s.= '</aside>'.N;
+
+print($s);

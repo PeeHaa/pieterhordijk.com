@@ -35,6 +35,19 @@ class ProjectController extends MFW_Controller
 
     function projectAction()
     {
+        $this->getRequest();
+        $params = $this->getRequestParams();
+
+        $projectModel = $this->view->modelFactory->getModel('Project');
+        $project = $projectModel->getProjectBySlug($params['slug']);
+
+        if (!$project) {
+            $this->redirect($this->url('index', array()));
+        }
+
+        $this->view->project = $project;
+        $this->view->aside = $this->view->render('projects/aside.phtml');
+
         $this->render('projects/project.phtml');
     }
 }
