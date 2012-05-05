@@ -87,4 +87,11 @@
 
     return false;
   });
+
+  $('aside a.delete').click(function() {
+    var answer = confirm('Are you sure you want to delete this project?');
+    if (!answer) {
+      return false;
+    }
+  });
 })(jQuery);

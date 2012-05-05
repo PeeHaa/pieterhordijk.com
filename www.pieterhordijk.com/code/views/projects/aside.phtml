@@ -21,7 +21,7 @@ if ($this->project->github) {
 }
 if ($this->user) {
     $s.= '      <li><a href="' . $this->url('projects/edit', array('slug' => $this->project->slug)) . '">Edit</a></li>'.N;
-    $s.= '      <li><a href="' . $this->url('projects/delete', array('slug' => $this->project->slug)) . '?token=' . $this->csrfToken . '">Delete</a></li>'.N;
+    $s.= '      <li><a href="' . $this->url('projects/delete', array('slug' => $this->project->slug)) . '?token=' . $this->csrfToken . '" class="delete">Delete</a></li>'.N;
 }
 $s.= '    </ul>'.N;
 $s.= '  </div>'.N;
