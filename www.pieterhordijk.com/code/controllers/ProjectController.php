@@ -15,12 +15,12 @@ class ProjectController extends MFW_Controller
 
     function createAction()
     {
-        $this->getRequest();
-        $params = $this->getRequestParams();
-
         if (!$this->view->user) {
             $this->redirect($this->url('403', array()));
         }
+
+        $this->getRequest();
+        $params = $this->getRequestParams();
 
         $createForm = new Project_Create_Form();
 

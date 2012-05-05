@@ -4,6 +4,10 @@ class UserController extends MFW_Controller
 {
     public function registerAction()
     {
+        if (!$this->view->user) {
+            $this->redirect($this->url('403', array()));
+        }
+
         $this->getRequest();
         $params = $this->getRequestParams();
 
