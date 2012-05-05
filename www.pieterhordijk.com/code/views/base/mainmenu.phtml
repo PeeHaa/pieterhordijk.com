@@ -7,7 +7,11 @@ $s = '';
 
 $s.= '<div class="mainmenu">'.N;
 $s.= '  <ul>'.N;
-$s.= '    <li class="active">'.N;
+$active = '';
+if (strpos($this->url(), $this->url('projects', array())) === 0) {
+    $active = ' class="active"';
+}
+$s.= '    <li' . $active . '>'.N;
 $s.= '      <a href="' . $this->url('projects', array()) . '">'.N;
 $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
 $s.= '         Projects'.N;
@@ -15,6 +19,10 @@ $s.= '      </a>'.N;
 $s.= '      <ul>'.N;
 $classes = array('first');
 foreach($projects as $project) {
+    $active = '';
+    if (strpos($this->url(), $this->url('projects/project', array('slug' => $project->slug))) === 0) {
+        $classes[] = 'active';
+    }
     $s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('projects/project', array('slug' => $project->slug)) . '">' . $project->title . '</a></li>'.N;
 
     $classes = array();
@@ -36,9 +44,9 @@ $s.= '        <li class="last"><a href="#">cv-pls</a></li>'.N;
 $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
 $s.= '    <li>'.N;
-$s.= '      <a href="#">'.N;
-$s.= '         <img src="/style/projects.png" alt="Performance tests" title="Performance tests">'.N;
-$s.= '         Performance tests'.N;
+$s.= '      <a href="' . $this->url('benchmarks', array()) . '">'.N;
+$s.= '         <img src="/style/projects.png" alt="Benchmarks" title="Benchmarks">'.N;
+$s.= '         Benchmarks'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
 $s.= '    <li>'.N;
@@ -48,14 +56,22 @@ $s.= '         Sandbox'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
 */
-$s.= '    <li>'.N;
+$active = '';
+if (strpos($this->url(), $this->url('page/contact', array())) === 0) {
+    $active = ' class="active"';
+}
+$s.= '    <li' . $active . '>'.N;
 $s.= '      <a href="' . $this->url('page/contact', array()) . '">'.N;
 $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.N;
 $s.= '         Contact'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
 if ($this->user) {
-    $s.= '    <li>'.N;
+    $active = '';
+    if (strpos($this->url(), $this->url('user/register', array())) === 0) {
+        $active = ' class="active"';
+    }
+    $s.= '    <li' . $active . '>'.N;
     $s.= '      <a href="' . $this->url('user/register', array()) . '">'.N;
     $s.= '         <img src="/style/projects.png" alt="User register" title="User register">'.N;
     $s.= '         User register'.N;
