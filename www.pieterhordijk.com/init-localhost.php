@@ -45,6 +45,12 @@ define('MFW_OS', MFW_OS_WINDOWS);
 define('MFW_CERT_BUNDLE', MFW_LIB_PATH.'/cacert.pem');
 
 /**
+ * Set the base URL for the GitHub API
+ */
+define('MFW_GITHUB_BASE_URL', 'https://github.com');
+define('MFW_GITHUB_API_BASE_URL', 'https://api.github.com');
+
+/**
  * Setup the proxy settings
  */
 define('MFW_PROXY_USE', False);
