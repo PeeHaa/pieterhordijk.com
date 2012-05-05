@@ -54,7 +54,12 @@ $s.= '    <header>'.N;
 $s.= $this->render('base/header.phtml');
 $s.= '    </header>'.N;
 
-$s.= '    <div id="body">'.N;
+$bodyClass = '';
+if (isset($this->aside)) {
+    $bodyClass = ' class="aside"';
+}
+
+$s.= '    <div id="body"' . $bodyClass . '>'.N;
 if (isset($this->aside)) {
     $s.= $this->aside;
 }
