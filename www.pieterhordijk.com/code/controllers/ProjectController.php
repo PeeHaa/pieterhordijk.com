@@ -18,6 +18,10 @@ class ProjectController extends MFW_Controller
         $this->getRequest();
         $params = $this->getRequestParams();
 
+        if (!$this->view->user) {
+            $this->redirect($this->url('403', array()));
+        }
+
         $createForm = new Project_Create_Form();
 
         if (isset($params['submit'])) {
