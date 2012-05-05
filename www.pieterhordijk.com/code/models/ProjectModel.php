@@ -24,7 +24,7 @@ class ProjectModel extends MFW_Model
         return $this->parseRecordset($recordset);
     }
 
-    public function createProject(Project_Create_Form $form)
+    public function createProject(Project_Create_Form $form, $username)
     {
         if ($this->doesSlugExist($form->getField('slug')->getData())) {
             return false;
@@ -38,7 +38,7 @@ class ProjectModel extends MFW_Model
                       'github' => $form->getField('github')->getData(),
                       'download' => $form->getField('download')->getData(),
                       'version' => $form->getField('version')->getData(),
-                      'username' => 'phordijk',
+                      'username' => $username,
                       );
 
         return $this->table->insert($data);
