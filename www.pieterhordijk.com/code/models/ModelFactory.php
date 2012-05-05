@@ -15,4 +15,12 @@ class ModelFactory
 
         return new $model(new MFW_Db_Table($this->databaseConnection));
     }
+
+    public function getGithubModel()
+    {
+        $uri = new MFW_Http_Uri('https://api.github.com');
+        $httpClient = new MFW_Http_Client($uri, array('verifypeer'=>0));
+
+        return new GithubModel($httpClient);
+    }
 }

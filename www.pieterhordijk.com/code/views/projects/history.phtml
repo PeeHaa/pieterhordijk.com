@@ -1,0 +1,29 @@
+<?php
+
+$s = '';
+
+$s.= '<h2>' . $this->project->title . ' - History</h2>'.N;
+
+foreach($this->commits as $commit) {
+    $commitUrl = MFW_GITHUB_BASE_URL . '/' . $this->project->github->username . '/';
+    $commitUrl.= $this->project->github->repo . '/commit/' . $commit->sha;
+
+    $s.= '<article>'.N;
+    $s.= '  <h3><a href="' . $commitUrl . '" target="_blank">' . $commit->sha. '</a></h3>'.N;
+    $s.= '  <p>' . nl2br($commit->commit->message) . '</p>'.N;
+    $s.= '</article>'.N;
+}
+
+$this->setSlot('pagetitle', 'History - ' . $this->project->title . ' - Projects');
+$this->setSlot('meta.description', 'An overview of the commit history of the project ' . $this->project->title);
+$keywords = '';
+if ($this->project->keywords) {
+    $keywords = $this->project->keywords;
+}
+$this->setSlot('meta.keywords', $keywords . ',commits,history');
+$this->setSlot('meta.author', 'Pieter Hordijk');
+$this->setSlot('meta.revisit-after', '1 month');
+
+$this->setSlot('content', $s);
+
+print($this->render('base/page.phtml'));

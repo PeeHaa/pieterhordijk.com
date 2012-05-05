@@ -18,6 +18,8 @@ $routes = array(
                                              'project/create', array()),
 'projects/project'                  => array('/projects/:slug',
                                              'project/project', array()),
+'projects/history'                  => array('/projects/:slug/history/:page',
+                                             'project/history', array('page'=>false)),
 'projects/edit'                     => array('/projects/:slug/edit',
                                              'project/edit', array()),
 'projects/delete'                   => array('/projects/:slug/delete',

@@ -118,4 +118,34 @@ class ProjectController extends MFW_Controller
 
         $this->redirect($this->url('projects', array()));
     }
+
+    function historyAction()
+    {
+        $this->getRequest();
+        $params = $this->getRequestParams();
+
+        $projectModel = $this->view->modelFactory->getModel('Project');
+        $project = $projectModel->getProjectBySlug($params['slug']);
+
+        if (!$project) {
+            $this->redirect($this->url('index', array()));
+        }
+
+        if (!property_exists($project->github, 'username')) {
+            $this->redirect($this->url('projects/project', array('slug'=>$project->slug)));
+        }
+
+        $page = 1;
+        if (isset($params['page'])) {
+            $page = $params['page'];
+        }
+
+        $githubModel = $this->view->modelFactory->getGithubModel();
+        $this->view->commits = $githubModel->getCommits($project->github->username, $project->github->repo, $page, 100);
+
+        $this->view->project = $project;
+        $this->view->aside = $this->view->render('projects/aside.phtml');
+
+        $this->render('projects/history.phtml');
+    }
 }
