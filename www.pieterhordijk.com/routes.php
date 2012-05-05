@@ -23,6 +23,10 @@ $routes = array(
 'projects/delete'                   => array('/projects/:slug/delete',
                                              'project/delete', array()),
 
+'403'                               => array('/403-forbidden',
+                                             'page/forbidden', array()),
+'404'                               => array('/404-not-found',
+                                             'page/not-found', array()),
 'page/contact'                      => array('/contact',
                                              'page/contact', array()),
 
