@@ -4,6 +4,12 @@ class ProjectController extends MFW_Controller
 {
     function indexAction()
     {
+        $this->getRequest();
+        $params = $this->getRequestParams();
+
+        $projectModel = $this->view->modelFactory->getModel('Project');
+        $this->view->projects = $projectModel->getProjects();
+
         $this->render('projects/index.phtml');
     }
 
