@@ -60,4 +60,41 @@ class ProjectController extends MFW_Controller
 
         $this->render('projects/project.phtml');
     }
+
+    function editAction()
+    {
+        if (!$this->view->user) {
+            $this->redirect($this->url('403', array()));
+        }
+
+        $this->getRequest();
+        $params = $this->getRequestParams();
+
+        $projectModel = $this->view->modelFactory->getModel('Project');
+        $project = $projectModel->getProjectBySlug($params['slug']);
+
+        if (!$project) {
+            $this->redirect($this->url('index', array()));
+        }
+
+        $editForm = new Project_Edit_Form($project);
+
+        if (isset($params['submit'])) {
+            $editForm->clean($params);
+
+            if ($editForm->isValid()) {
+                $result = $projectModel->updateProject($editForm);
+
+                if ($result === false) {
+                    // slug already exists?
+                } else {
+                    $this->redirect($this->url('projects/project', array('slug'=>$editForm->getField('slug')->getData())));
+                }
+            }
+        }
+
+        $this->view->project = $project;
+        $this->view->form = $editForm;
+        $this->render('projects/edit.phtml');
+    }
 }

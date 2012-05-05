@@ -45,6 +45,26 @@ class ProjectModel extends MFW_Model
         return $this->table->insert($data);
     }
 
+    public function updateProject(Project_Edit_Form $form)
+    {
+        $data = array('title' => $form->getField('title')->getData(),
+                      'slug' => $form->getField('slug')->getData(),
+                      'intro' => $form->getField('intro')->getData(),
+                      'keywords' => $form->getField('keywords')->getData(),
+                      'description' => $form->getField('description')->getData(),
+                      'github' => $form->getField('github')->getData(),
+                      'download' => $form->getField('download')->getData(),
+                      'version' => $form->getField('version')->getData(),
+                      );
+
+        if ($form->getField('image')->getData()) {
+            $data['image'] = $form->getField('image')->getData();
+        }
+
+        return $this->table->update($data,
+                                    $this->table->where('id = ?', $form->getField('id')->getData()));
+    }
+
     protected function doesSlugExist($slug)
     {
         $recordset = $this->table->select('id',
@@ -63,7 +83,7 @@ class ProjectModel extends MFW_Model
                                           $this->table->where('slug = ?', $slug));
 
         if (!$recordset) {
-            return array();
+            return null;
         }
 
         $projects = $this->parseRecordset($recordset);
