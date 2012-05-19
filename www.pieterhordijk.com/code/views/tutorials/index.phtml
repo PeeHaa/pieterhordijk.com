@@ -1,0 +1,21 @@
+<?php
+
+$s = '';
+
+$s.= '<h2>Tutorials</h2>'.N;
+foreach($this->tutorials as $tutorial) {
+    $s.= '<article>'.N;
+    $s.= '  <h3><a href="' . $this->url('tutorials/tutorial', array('slug' => $tutorial->slug)) . '">' . $tutorial->title . '</a></h3>'.N;
+    $s.= '  <p>' . $tutorial->intro . '</p>'.N;
+    $s.= '</article>'.N;
+}
+
+$this->setSlot('pagetitle', 'Tutorials');
+$this->setSlot('meta.description', '');
+$this->setSlot('meta.keywords', 'Pieter Hordijk, tutorials');
+$this->setSlot('meta.author', 'Pieter Hordijk');
+$this->setSlot('meta.revisit-after', '1 month');
+
+$this->setSlot('content', $s);
+
+print($this->render('base/page.phtml'));

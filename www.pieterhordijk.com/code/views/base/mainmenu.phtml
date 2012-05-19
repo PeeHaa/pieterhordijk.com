@@ -3,6 +3,9 @@
 $projectModel = $this->modelFactory->getModel('Project');
 $projects = $projectModel->getProjects();
 
+$tutorialModel = $this->modelFactory->getModel('Tutorial');
+$tutorials = $tutorialModel->getTutorials();
+
 $s = '';
 
 $s.= '<div class="mainmenu">'.N;
@@ -32,17 +35,32 @@ if ($this->user) {
 }
 $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
-/*
-$s.= '    <li>'.N;
-$s.= '      <a href="#">'.N;
-$s.= '         <img src="/style/projects.png" alt="Tutorial" title="Tutorials">'.N;
+$active = '';
+if (strpos($this->url(), $this->url('tutorials', array())) === 0) {
+    $active = ' class="active"';
+}
+$s.= '    <li' . $active . '>'.N;
+$s.= '      <a href="' . $this->url('tutorials', array()) . '">'.N;
+$s.= '         <img src="/style/projects.png" alt="Tutorials" title="Tutorials">'.N;
 $s.= '         Tutorials'.N;
 $s.= '      </a>'.N;
 $s.= '      <ul>'.N;
-$s.= '        <li class="first"><a href="#">MySQL in PHP using PDO - The right way ™</a></li>'.N;
-$s.= '        <li class="last"><a href="#">cv-pls</a></li>'.N;
+$classes = array('first');
+foreach($tutorials as $tutorial) {
+    $active = '';
+    if (strpos($this->url(), $this->url('tutorials/tutorial', array('slug' => $tutorial->slug))) === 0) {
+        $classes[] = 'active';
+    }
+    $s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('tutorials/tutorial', array('slug' => $tutorial->slug)) . '">' . $tutorial->title . '</a></li>'.N;
+
+    $classes = array();
+}
+if ($this->user) {
+    $s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('tutorials/create', array()) . '">Add new tutorial</a></li>'.N;
+}
 $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
+/*
 $s.= '    <li>'.N;
 $s.= '      <a href="' . $this->url('benchmarks', array()) . '">'.N;
 $s.= '         <img src="/style/projects.png" alt="Benchmarks" title="Benchmarks">'.N;

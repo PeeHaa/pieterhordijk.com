@@ -1,0 +1,27 @@
+<?php
+
+$s = '';
+
+$s.= '<aside>'.N;
+$s.= '  <div class="info">'.N;
+if ($this->tutorial->image) {
+    $s.= '    <div class="image">'.N;
+    $s.= '      <img src="/img/tutorials/' . $this->tutorial->image . '" alt="' . $this->tutorial->title . '" title="' . $this->tutorial->title . '">'.N;
+    $s.= '    </div>'.N;
+}
+$s.= '    <ul>'.N;
+$s.= '      <li><strong>' . $this->tutorial->title . '</strong></li>'.N;
+if ($this->user) {
+    $s.= '      <li><a href="' . $this->url('tutorials/edit', array('slug' => $this->tutorial->slug)) . '">Edit</a></li>'.N;
+    $s.= '      <li><a href="' . $this->url('tutorials/delete', array('slug' => $this->tutorial->slug)) . '?token=' . $this->csrfToken . '" class="delete">Delete</a></li>'.N;
+}
+$s.= '    </ul>'.N;
+$s.= '  </div>'.N;
+if ($this->tutorial->intro) {
+    $s.= '  <div class="intro">'.N;
+    $s.= '    <p>' . $this->tutorial->intro . '</p>'.N;
+    $s.= '  </div>'.N;
+}
+$s.= '</aside>'.N;
+
+print($s);

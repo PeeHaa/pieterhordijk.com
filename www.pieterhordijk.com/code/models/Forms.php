@@ -102,3 +102,39 @@ class Contact_Form extends MFW_Form
         $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'Send')));
     }
 }
+
+class Tutorial_Create_Form extends MFW_Form
+{
+    function __construct()
+    {
+        parent::__construct(True);
+
+        $this->addField('title', new MFW_Form_Field_Text(array('required'=>true)));
+        $this->addField('slug', new MFW_Form_Field_Text(array('required'=>true)));
+        $this->addField('intro', new MFW_Form_Field_Textarea(array('required'=>true)));
+        $this->addField('keywords', new MFW_Form_Field_Text(array('required'=>false)));
+        $this->addField('text', new MFW_Form_Field_Textarea(array('required'=>true)));
+        $this->addField('image', new MFW_Form_Field_File(array('required'=>false,
+                                                               'max_size'=>20971520,
+                                                               'save_path'=>MFW_SITE_PATH.'/public/img/tutorials',
+                                                               'save_name'=>'hash',
+                                                               'allowed_extensions' => array('png', 'jpg', 'jpeg', 'gif'))));
+        $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'Save new tutorial')));
+    }
+}
+
+class Tutorial_Edit_Form extends Tutorial_Create_Form
+{
+    function __construct($tutorial)
+    {
+        parent::__construct();
+
+        $this->addField('id', new MFW_Form_Field_Hidden(array('required'=>true, 'initial'=>$tutorial->id)));
+        $this->getField('title')->setInitial($tutorial->title);
+        $this->getField('slug')->setInitial($tutorial->slug);
+        $this->getField('intro')->setInitial($tutorial->intro);
+        $this->getField('keywords')->setInitial($tutorial->keywords);
+        $this->getField('text')->setInitial($tutorial->text);
+        $this->getField('submit')->setInitial('Update tutorial');
+    }
+}

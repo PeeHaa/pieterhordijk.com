@@ -25,6 +25,23 @@ $routes = array(
 'projects/delete'                   => array('/projects/:slug/delete',
                                              'project/delete', array()),
 
+'tutorials'                         => array('/tutorials',
+                                             'tutorial/index', array()),
+'tutorials/create'                  => array('/tutorials/create',
+                                             'tutorial/create', array()),
+'tutorials/tutorial'                => array('/tutorial/:slug',
+                                             'tutorial/tutorial', array()),
+'tutorials/project'                 => array('/tutorials/:slug',
+                                             'tutorial/tutorial', array()),
+'tutorials/edit'                    => array('/tutorials/:slug/edit',
+                                             'tutorial/edit', array()),
+'tutorials/delete'                  => array('/tutorials/:slug/delete',
+                                             'tutorial/delete', array()),
+
+
+'benchmarks'                        => array('/benchmarks',
+                                             'benchmark/index', array()),
+
 '403'                               => array('/403-forbidden',
                                              'page/forbidden', array()),
 '404'                               => array('/404-not-found',
