@@ -89,7 +89,7 @@
   });
 
   $('aside a.delete').click(function() {
-    var answer = confirm('Are you sure you want to delete this project?');
+    var answer = confirm($(this).data('prompt'));
     if (!answer) {
       return false;
     }
