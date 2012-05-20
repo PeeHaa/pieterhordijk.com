@@ -29,7 +29,7 @@ $routes = array(
                                              'tutorial/index', array()),
 'tutorials/create'                  => array('/tutorials/create',
                                              'tutorial/create', array()),
-'tutorials/tutorial'                => array('/tutorial/:slug',
+'tutorials/tutorial'                => array('/tutorials/:slug',
                                              'tutorial/tutorial', array()),
 'tutorials/project'                 => array('/tutorials/:slug',
                                              'tutorial/tutorial', array()),
