@@ -102,8 +102,8 @@ class Markdown
      *            The gamut is defined by method to run and the priority
      *            so it can easily be sorted
      */
-    protected $documentGamut = array('stripLinkDefinitions' => 20,
-                                     'runBasicBlockGamut'   => 30,
+    protected $documentGamut = array('stripLinkDefinitions'     => 20,
+                                     'processBasicBlockGamut'   => 30,
                                      );
 
     /**
@@ -111,11 +111,11 @@ class Markdown
      *            The gamut is defined by method to run and the priority
      *            so it can easily be sorted
      */
-    protected $blockGamut = array('doHeaders'         => 10,
-                                  'doHorizontalRules' => 20,
-                                  'doLists'           => 40,
-                                  'doCodeBlocks'      => 50,
-                                  'doBlockQuotes'     => 60,
+    protected $blockGamut = array('processHeaders'          => 10,
+                                  'processHorizontalRules'  => 20,
+                                  'doLists'                 => 40,
+                                  'doCodeBlocks'            => 50,
+                                  'doBlockQuotes'           => 60,
                                   );
 
     /**
@@ -148,9 +148,17 @@ class Markdown
     protected $titles;
 
     /**
-     * @var array Used to hash HTML blocks
+     * @var array Used to keep track of hashed HTML blocks
      */
     protected $htmlHashes;
+
+    /**
+     * @var int The current index of the $htmlHashes array
+     *
+     * @todo Check the performance / functionality when dropping this
+     *       and use count(self::htmlHashes) instead
+     */
+    protected $currentHashIndex;
 
     /**
      * @var bool Status flag to avoid invalid nesting.
@@ -225,6 +233,8 @@ class Markdown
         $this->hashes = array();
 
         $this->inAnchor = false;
+
+        $this->currentHashIndex = 0;
     }
 
     /**
@@ -261,10 +271,7 @@ class Markdown
      */
     public function parse($text)
     {
-        // first let's normalize the text
-        $text = $this->removeBom($text);
-        $text = $this->normalizeLinebreaks($text);
-        $text = $this->normalizeTabs($text);
+        $text = $this->normalizeText($text);
 
         // hash HTML elements
         $text = $this->hashHTMLBlocks($text);
@@ -283,6 +290,23 @@ class Markdown
         $this->initializeAndCleanUp();
 
         return $text . "\n";
+    }
+
+    /**
+     * Normalizes the provided text by removing BOM characters, normalizing
+     * line breaks and normalizing tabs
+     *
+     * @param string $text The text to normalize
+     *
+     * @return string The normalized text
+     */
+    protected function normalizeText($text)
+    {
+        $text = $this->removeBom($text);
+        $text = $this->normalizeLinebreaks($text);
+        $text = $this->normalizeTabs($text);
+
+        return $text;
     }
 
     /**
@@ -498,7 +522,7 @@ class Markdown
     protected function hashHTMLBlocksCallback($matches)
     {
         $text = $matches[1];
-        $key  = $this->hashBlock($text);
+        $key  = $this->hashBlockElement($text);
 
         return "\n\n$key\n\n";
     }
@@ -559,84 +583,202 @@ class Markdown
         return '';
     }
 
-	function hashPart($text, $boundary = 'X') {
-	#
-	# Called whenever a tag must be hashed when a function insert an atomic
-	# element in the text stream. Passing $text to through this function gives
-	# a unique text-token which will be reverted back when calling unhash.
-	#
-	# The $boundary argument specify what character should be used to surround
-	# the token. By convension, "B" is used for block elements that needs not
-	# to be wrapped into paragraph tags at the end, ":" is used for elements
-	# that are word separators and "X" is used in the general case.
-	#
-		# Swap back any tag hash found in $text so we do not have to `unhash`
-		# multiple times at the end.
-		$text = $this->unhash($text);
+    /**
+     * Hashes block level elements (this function is a shortcut
+     * of doing self::hashPart($text, 'B'))
+     *
+     * @param string $text The text representation of the element
+     *
+     * @return string The hashed element
+     */
+    protected function hashBlockElement($text)
+    {
+        return $this->hashPart($text, 'B');
+    }
 
-		# Then hash the block.
-		static $i = 0;
-		$key = "$boundary\x1A" . ++$i . $boundary;
-		$this->htmlHashes[$key] = $text;
-		return $key; # String that will replace the tag.
-	}
+    /**
+     * Hashes a part to a unique text token so we don't have to process it again
+     * The original text is stored in an array for future use and the unique
+     * token is returned to replace in the whole text.
+     * The boundary is used to distinguish between block elements (B),
+     * word separators (:) and general use (X)
+     *
+     * @param string $text The text to add to the hashes
+     * @param string $boundary The boundary to use in the key when adding
+     *                         to hashes
+     *
+     * @return string The hashed element
+     */
+    protected function hashPart($text, $boundary = 'X')
+    {
+        static $i = 0;
 
+        // First we are going to unhash any hashes found in the text to prevent
+        // the need to unhash multiple times at the end
+        $text = $this->unHash($text);
 
-	function hashBlock($text) {
-	#
-	# Shortcut function for hashPart with block-level boundaries.
-	#
-		return $this->hashPart($text, 'B');
-	}
+        $key = $boundary . "\x1A" . ++$this->currentHashIndex . $boundary;
+        $this->htmlHashes[$key] = $text;
 
+        return $key;
+    }
 
-	function runBlockGamut($text) {
-	#
-	# Run block gamut tranformations.
-	#
-		# We need to escape raw HTML in Markdown source before doing anything
-		# else. This need to be done for each block, and not only at the
-		# begining in the Markdown function since hashed blocks can be part of
-		# list items and could have been indented. Indented blocks would have
-		# been seen as a code block in a previous pass of hashHTMLBlocks.
-		$text = $this->hashHTMLBlocks($text);
+    /**
+     * Unhashes the text using the stored elements in the array with hashes
+     *
+     * @param string $text The text to unhash
+     *
+     * @return string The unhashed text
+     */
+    protected function unHash($text)
+    {
+        return preg_replace_callback('/(.)\x1A[0-9]+\1/', array(&$this, 'unHashCallback'), $text);
+    }
 
-		return $this->runBasicBlockGamut($text);
-	}
+    /**
+     * Replaces the matches (from the unhash regex) with the original values
+     *
+     * @param array $matches The matches from the unhash regex
+     *
+     * @return string The unhashed text
+     */
+    protected function unHashCallback($matches)
+    {
+        return $this->htmlHashes[$matches[0]];
+    }
 
-	function runBasicBlockGamut($text) {
-	#
-	# Run block gamut tranformations, without hashing HTML blocks. This is
-	# useful when HTML blocks are known to be already hashed, like in the first
-	# whole-document pass.
-	#
-		foreach ($this->blockGamut as $method => $priority) {
-			$text = $this->$method($text);
-		}
+    /**
+     * First all raw HTML gets hashed and after that we are going through the
+     * block gamut as defined in self::blockGamut
+     *
+     * @param string $text The text we are going to process
+     *
+     * @return string The text with the parsed block elements
+     */
+    protected function processBlockGamut($text)
+    {
+        $text = $this->hashHTMLBlocks($text);
 
-		# Finally form paragraph and restore hashed blocks.
-		$text = $this->formParagraphs($text);
+        return $this->processBasicBlockGamut($text);
+    }
 
-		return $text;
-	}
+    /**
+     * Parse the block gamut using the methods defined in self::blockGamut
+     *
+     * @param string $text The text we are going to process
+     *
+     * @return string The text with the parsed block elements
+     */
+    protected function processBasicBlockGamut($text)
+    {
+        foreach ($this->blockGamut as $method => $priority) {
+            $text = $this->$method($text);
+        }
 
+        $text = $this->formParagraphs($text);
 
-	function doHorizontalRules($text) {
-		# Do Horizontal Rules:
-		return preg_replace(
-			'{
-				^[ ]{0,3}	# Leading space
-				([-*_])		# $1: First marker
-				(?>			# Repeated marker group
-					[ ]{0,2}	# Zero, one, or two spaces.
-					\1			# Marker character
-				){2,}		# Group repeated at least twice
-				[ ]*		# Tailing spaces
-				$			# End of line.
-			}mx',
-			"\n".$this->hashBlock('<hr' . self::EMPTY_ELEMENT_SUFFIX) . "\n",
-			$text);
-	}
+        return $text;
+    }
+
+    /**
+     * Parse headers in the text of both styles: Setext and atx
+     * Setext supports to levels of headers:
+     * Header 1
+     * ========
+     *
+     * Header 2
+     * --------
+     *
+     * Atx style headers:
+     * # Header 1
+     * ## Header 2
+     * ## Header 2 with closing hashes ##
+     * ...
+     * ###### Header 6
+     *
+     * @param string $text The text we are going to process
+     *
+     * @return string The text with the parsed headers
+     */
+    protected function processHeaders($text)
+    {
+        $text = preg_replace_callback('{ ^(.+?)[ ]*\n(=+|-+)[ ]*\n+ }mx', array(&$this, 'processSetextHeadersCallback'), $text);
+
+        $text = preg_replace_callback('{
+                ^(\#{1,6})  # $1 = string of #\'s
+                [ ]*
+                (.+?)       # $2 = Header text
+                [ ]*
+                \#*         # optional closing #\'s (not counted)
+                \n+
+            }xm',
+            array(&$this, 'processAxtHeadersCallback'), $text);
+
+        return $text;
+    }
+
+    /**
+     * Parse Setext style headers from the processHeaders regex
+     *
+     * @param array $matches The match we want to replace
+     *
+     * @return string The text with the parsed Setext headers
+     */
+    protected function processSetextHeadersCallback($matches) {
+        // Terrible hack to check we haven't found an empty list item.
+        if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1])) {
+            return $matches[0];
+        }
+
+        if ($matches[2]{0} == '=') {
+            $level = 1;
+        } else {
+            $level = 2;
+        }
+
+        $block = '<h' . $level . '>' . $this->runSpanGamut($matches[1]) . '</h' . $level . '>';
+
+        return "\n" . $this->hashBlockElement($block) . "\n\n";
+    }
+
+    /**
+     * Parse Atx style headers from the processHeaders regex
+     *
+     * @param array $matches The match we want to replace
+     *
+     * @return string The text with the parsed Atx headers
+     */
+    protected function processAxtHeadersCallback($matches)
+    {
+        $level = strlen($matches[1]);
+        $block = '<h' . $level . '>' . $this->runSpanGamut($matches[2]) . '</h' . $level . '>';
+
+        return "\n" . $this->hashBlockElement($block) . "\n\n";
+    }
+
+    /**
+     * Parse horizontal rules
+     *
+     * @param string $text The text we are going to process
+     *
+     * @return string The text with the parsed horizontal rules
+     */
+    protected function processHorizontalRules($text)
+    {
+        return preg_replace(
+            '{
+                ^[ ]{0,3}       # Leading space
+                ([-*_])         # $1: First marker
+                (?>             # Repeated marker group
+                    [ ]{0,2}    # Zero, one, or two spaces.
+                    \1          # Marker character
+                ){2,}           # Group repeated at least twice
+                [ ]*            # Tailing spaces
+                $               # End of line.
+            }mx',
+            "\n".$this->hashBlockElement('<hr' . self::EMPTY_ELEMENT_SUFFIX) . "\n",
+            $text);
+    }
 
 
 	function runSpanGamut($text) {
@@ -888,52 +1030,6 @@ class Markdown
 	}
 
 
-	function doHeaders($text) {
-		# Setext-style headers:
-		#	  Header 1
-		#	  ========
-		#
-		#	  Header 2
-		#	  --------
-		#
-		$text = preg_replace_callback('{ ^(.+?)[ ]*\n(=+|-+)[ ]*\n+ }mx',
-			array(&$this, '_doHeaders_callback_setext'), $text);
-
-		# atx-style headers:
-		#	# Header 1
-		#	## Header 2
-		#	## Header 2 with closing hashes ##
-		#	...
-		#	###### Header 6
-		#
-		$text = preg_replace_callback('{
-				^(\#{1,6})	# $1 = string of #\'s
-				[ ]*
-				(.+?)		# $2 = Header text
-				[ ]*
-				\#*			# optional closing #\'s (not counted)
-				\n+
-			}xm',
-			array(&$this, '_doHeaders_callback_atx'), $text);
-
-		return $text;
-	}
-	function _doHeaders_callback_setext($matches) {
-		# Terrible hack to check we haven't found an empty list item.
-		if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
-			return $matches[0];
-
-		$level = $matches[2]{0} == '=' ? 1 : 2;
-		$block = "<h$level>".$this->runSpanGamut($matches[1])."</h$level>";
-		return "\n" . $this->hashBlock($block) . "\n\n";
-	}
-	function _doHeaders_callback_atx($matches) {
-		$level = strlen($matches[1]);
-		$block = "<h$level>".$this->runSpanGamut($matches[2])."</h$level>";
-		return "\n" . $this->hashBlock($block) . "\n\n";
-	}
-
-
 	function doLists($text) {
 	#
 	# Form HTML ordered (numbered) and unordered (bulleted) lists.
@@ -1014,7 +1110,7 @@ class Markdown
 		$list .= "\n";
 		$result = $this->processListItems($list, $marker_any_re);
 
-		$result = $this->hashBlock("<$list_type>\n" . $result . "</$list_type>");
+		$result = $this->hashBlockElement("<$list_type>\n" . $result . "</$list_type>");
 		return "\n". $result ."\n\n";
 	}
 
@@ -1078,7 +1174,7 @@ class Markdown
 		{
 			# Replace marker with the appropriate whitespace indentation
 			$item = $leading_space . str_repeat(' ', strlen($marker_space)) . $item;
-			$item = $this->runBlockGamut($this->outdent($item)."\n");
+			$item = $this->processBlockGamut($this->outdent($item)."\n");
 		}
 		else {
 			# Recursion for sub-lists:
@@ -1119,7 +1215,7 @@ class Markdown
 		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
 
 		$codeblock = "<pre><code>$codeblock\n</code></pre>";
-		return "\n\n".$this->hashBlock($codeblock)."\n\n";
+		return "\n\n".$this->hashBlockElement($codeblock)."\n\n";
 	}
 
 
@@ -1279,7 +1375,7 @@ class Markdown
 		$bq = $matches[1];
 		# trim one level of quoting - trim whitespace-only lines
 		$bq = preg_replace('/^[ ]*>[ ]?|^[ ]+$/m', '', $bq);
-		$bq = $this->runBlockGamut($bq);		# recurse
+		$bq = $this->processBlockGamut($bq);		# recurse
 
 		$bq = preg_replace('/^/m', "  ", $bq);
 		# These leading spaces cause problem with <pre> content,
@@ -1287,7 +1383,7 @@ class Markdown
 		$bq = preg_replace_callback('{(\s*<pre>.+?</pre>)}sx',
 			array(&$this, '_doBlockQuotes_callback2'), $bq);
 
-		return "\n". $this->hashBlock("<blockquote>\n$bq\n</blockquote>")."\n\n";
+		return "\n". $this->hashBlockElement("<blockquote>\n$bq\n</blockquote>")."\n\n";
 	}
 	function _doBlockQuotes_callback2($matches) {
 		$pre = $matches[1];
@@ -1564,16 +1660,4 @@ class Markdown
 	#
 		return preg_replace('/^(\t|[ ]{1,'.self::TAB_WIDTH.'})/m', '', $text);
 	}
-
-	function unhash($text) {
-	#
-	# Swap back in all the tags hashed by _HashHTMLBlocks.
-	#
-		return preg_replace_callback('/(.)\x1A[0-9]+\1/',
-			array(&$this, '_unhash_callback'), $text);
-	}
-	function _unhash_callback($matches) {
-		return $this->htmlHashes[$matches[0]];
-	}
-
 }
