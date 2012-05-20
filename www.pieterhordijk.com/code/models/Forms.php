@@ -10,7 +10,9 @@ class Project_Create_Form extends MFW_Form
         $this->addField('slug', new MFW_Form_Field_Text(array('required'=>true)));
         $this->addField('intro', new MFW_Form_Field_Textarea(array('required'=>true)));
         $this->addField('keywords', new MFW_Form_Field_Text(array('required'=>false)));
-        $this->addField('description', new MFW_Form_Field_Textarea(array('required'=>false)));
+        $this->addField('description', new MFW_Form_Field_Textarea(array('required'=>false,
+                                                                         'attributes' => array('class'=>'fixed-font',
+                                                                         'rows'=>25))));
         $this->addField('image', new MFW_Form_Field_File(array('required'=>false,
                                                                'max_size'=>20971520,
                                                                'save_path'=>MFW_SITE_PATH.'/public/img/projects',
@@ -113,7 +115,9 @@ class Tutorial_Create_Form extends MFW_Form
         $this->addField('slug', new MFW_Form_Field_Text(array('required'=>true)));
         $this->addField('intro', new MFW_Form_Field_Textarea(array('required'=>true)));
         $this->addField('keywords', new MFW_Form_Field_Text(array('required'=>false)));
-        $this->addField('text', new MFW_Form_Field_Textarea(array('required'=>true)));
+        $this->addField('text', new MFW_Form_Field_Textarea(array('required'=>true,
+                                                                  'attributes'=>array('class'=>'fixed-font',
+                                                                                      'rows'=>25))));
         $this->addField('image', new MFW_Form_Field_File(array('required'=>false,
                                                                'max_size'=>20971520,
                                                                'save_path'=>MFW_SITE_PATH.'/public/img/tutorials',
