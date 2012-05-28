@@ -39,7 +39,7 @@ if ($this->project->intro) {
 }
 $s.= '  <ul class="menu">'.N;
 $s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)) . '">Description</a></li>'.N;
-$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)) . '">Documentation</a></li>'.N;
+//$s.= '    <li><a href="' . $this->url('projects/project', array('slug' => $this->project->slug)) . '">Documentation</a></li>'.N;
 if (property_exists($this->project->github, 'username')) {
     $s.= '    <li><a href="' . $this->url('projects/history', array('slug' => $this->project->slug)) . '">History</a></li>'.N;
 }
