@@ -1,5 +1,5 @@
 (function($) {
-  $('.mainmenu > ul > li').hover(function() {
+  $('x.mainmenu > ul > li').hover(function() {
     var $li = $(this).closest('li');
     $('.mainmenu ul ul').stop().clearQueue().fadeOut('slow', function() {
       $('ul', $li).stop().clearQueue().fadeIn('slow');
