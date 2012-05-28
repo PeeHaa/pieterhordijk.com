@@ -17,7 +17,7 @@ require_once(MFW_SITE_PATH.'/init-deployment.php');
 /**
  * Get the request
  */
-$request = new MFW_Http_Request($_SERVER['SCRIPT_URI']);
+$request = new MFW_Http_Request($_SERVER['REQUEST_URI']);
 
 /**
  * Get the rewrite-engine
