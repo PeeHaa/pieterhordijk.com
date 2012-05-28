@@ -1,0 +1,15 @@
+<?php
+
+$soundcloudId = $this->defaultSlot('soundcloud.id', null);
+if ($soundcloudId === null) return;
+
+$s = '';
+
+$trackUrl = 'http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F';
+$trackUrl.= $soundcloudId . '&auto_play=false&show_artwork=true&color=ff7700';
+
+$embedUrl = 'http://w.soundcloud.com/player/?url=' . $trackUrl;
+
+$s.= '<iframe width="100%" height="166" scrolling="no" frameborder="no" src="' . $embedUrl . '"></iframe>';
+
+print($s);

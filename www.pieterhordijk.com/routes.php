@@ -38,6 +38,10 @@ $routes = array(
 'tutorials/delete'                  => array('/tutorials/:slug/delete',
                                              'tutorial/delete', array()),
 
+'music'                             => array('/music',
+                                             'music/index', array()),
+'music/add'                         => array('/music/add-track',
+                                             'music/add-track', array()),
 
 'benchmarks'                        => array('/benchmarks',
                                              'benchmark/index', array()),

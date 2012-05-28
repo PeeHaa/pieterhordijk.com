@@ -60,6 +60,25 @@ if ($this->user) {
 }
 $s.= '      </ul>'.N;
 $s.= '    </li>'.N;
+$active = '';
+if (strpos($this->url(), $this->url('music', array())) === 0) {
+    $active = ' class="active"';
+}
+$s.= '    <li'. $active .'>'.N;
+$s.= '      <a href="' . $this->url('music', array()) . '">'.N;
+$s.= '         <img src="/style/projects.png" alt="Music" title="Music">'.N;
+$s.= '         Music'.N;
+$s.= '      </a>'.N;
+$classes = array('first');
+if ($this->user) {
+    if (strpos($this->url(), $this->url('music/add', array())) === 0) {
+        $classes[] = 'active';
+    }
+    $s.= '      <ul>'.N;
+    $s.= '        <li class="' . implode(' ', $classes) . '"><a href="' . $this->url('music/add', array()) . '">Add new track</a></li>'.N;
+    $s.= '      </ul>'.N;
+}
+$s.= '    </li>'.N;
 /*
 $s.= '    <li>'.N;
 $s.= '      <a href="' . $this->url('benchmarks', array()) . '">'.N;
@@ -73,7 +92,6 @@ $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.
 $s.= '         Sandbox'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
-*/
 $active = '';
 if (strpos($this->url(), $this->url('page/contact', array())) === 0) {
     $active = ' class="active"';
@@ -84,6 +102,7 @@ $s.= '         <img src="/style/projects.png" alt="Projects" title="Projects">'.
 $s.= '         Contact'.N;
 $s.= '      </a>'.N;
 $s.= '    </li>'.N;
+*/
 if ($this->user) {
     $active = '';
     if (strpos($this->url(), $this->url('user/register', array())) === 0) {

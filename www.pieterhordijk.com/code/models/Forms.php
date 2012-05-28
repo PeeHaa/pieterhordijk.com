@@ -142,3 +142,14 @@ class Tutorial_Edit_Form extends Tutorial_Create_Form
         $this->getField('submit')->setInitial('Update tutorial');
     }
 }
+
+class Track_Add_Form extends MFW_Form
+{
+    function __construct()
+    {
+        parent::__construct(True);
+
+        $this->addField('id', new MFW_Form_Field_Text(array('required'=>true)));
+        $this->addField('submit', new MFW_Form_Field_Submit(array('initial'=>'Add new track')));
+    }
+}
