@@ -79,6 +79,34 @@ class Collection
     }
 
     /**
+     * Gets a single open source project
+     *
+     * @param int $id The id of the project
+     *
+     * @return \PieterHordijk\OpenSource\Project The project
+     */
+    public function getById($id)
+    {
+        $query = 'SELECT id, name, description, github, image, content, status';
+        $query.= ' FROM opensource';
+        $query.= ' WHERE id = :id';
+
+        $stmt = $this->dbConnection->prepare($query);
+        $stmt->execute(['id' => $id]);
+
+        $result = $stmt->fetch();
+        if (!$result) {
+            return false;
+        }
+
+        $this->getFromGitHub([
+            $result['id'] => 'https://api.github.com/repos/' . $result['github'],
+        ]);
+
+        return $this->parse([$result]);
+    }
+
+    /**
      * Get all open source projects
      *
      * @return array All open source projects
