@@ -41,6 +41,11 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+html, body {
+    height: 100%;
+}
+
 body {
     font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #2b2b2b;
@@ -56,6 +61,7 @@ header {
     height: 50px;
     background: #000000;
     color: #bbbbbb;
+    border-bottom: 10px solid #f6f6f6;
 }
 
 header a {
@@ -74,10 +80,6 @@ header h1 {
     margin: 0;
     position: relative;
     top: 11px;
-}
-
-header nav {
-    
 }
 
 header nav ul {
@@ -99,10 +101,85 @@ header nav li:last-child {
 
 header nav li a {
     line-height: 50px;
-    padding: 24px 10px;
+    padding: 17px 10px;
     vertical-align: middle;
 }
 
 header nav li a:hover {
     color: #ffffff;
+}
+
+footer {
+    border-top: 10px solid #f6f6f6;
+    color: #8c8989;
+    background: #363839;
+    height: 166px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+footer .content > ul {
+    overflow: hidden;
+}
+
+footer .content > ul > li {
+    display: block;
+    float: left;
+    width: 350px;
+}
+
+footer .content > ul > li.flair {
+    width: 260px;
+    text-align: right;
+    padding-top: 10px;
+}
+
+footer h1 {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+footer a {
+    color: #8c8989;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer ul.legal {
+    background: #282a2b;
+    border-top: 1px solid #4b4c4d;
+    color: #8c8989;
+    font-size: 12px;
+    text-shadow: 1px 2px 1px #000;
+    text-align: center;
+}
+
+main {
+    xmin-height: 100%;
+    height: auto !important;
+    xheight: 100%;
+    margin: 0 auto 20px;
+    xmargin: 0 auto -246px;
+    max-width: 960px;
+}
+
+main h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+main h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+main a {
+    color: #000000;
 }
