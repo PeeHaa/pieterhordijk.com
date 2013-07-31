@@ -4,4 +4,8 @@ php:
   - "5.5"
   - "5.4"
 
+branches:
+  only:
+    - new-design
+
 script: phpunit --configuration phpunit.xml.dist --coverage-text
