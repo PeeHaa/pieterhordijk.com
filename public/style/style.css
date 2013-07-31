@@ -183,3 +183,27 @@ main h2 {
 main a {
     color: #000000;
 }
+
+main table {
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #dddddd;
+    width: 960px;
+}
+
+main table th {
+    font-weight: bold;
+    text-align: left;
+}
+
+table td, table th {
+    padding: 10px 5px;
+}
+
+table tr:hover td {
+    background: #dddddd;
+    cursor: pointer;
+}
+
+table td {
+    border-top: 1px solid #dddddd;
+}

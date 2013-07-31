@@ -23,6 +23,11 @@ use PieterHordijk\Core\Autoloader,
 require_once __DIR__ . '/src/PieterHordijk/bootstrap.php';
 
 /**
+ * Setup the environment specific settings
+ */
+require_once __DIR__ . '/init.deployment.php';
+
+/**
  * Setup session
  */
 /*
@@ -44,7 +49,9 @@ $request = new Request($_SERVER, $_GET, $_POST, $_COOKIE);
 /**
  * Get the template
  */
-if ($request->getMethod() == 'GET' && $request->getPath() == '/about') {
+if ($request->getMethod() == 'GET' && $request->getPath() == '/open-source') {
+    $template = __DIR__ . '/templates/open-source.phtml';
+} elseif ($request->getMethod() == 'GET' && $request->getPath() == '/about') {
     $template = __DIR__ . '/templates/about.phtml';
 } else {
     $template = __DIR__ . '/templates/home.phtml';
