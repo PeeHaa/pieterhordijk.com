@@ -20,7 +20,7 @@ time, mark, audio, video {
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+footer, header, main, hgroup, menu, nav, section {
     display: block;
 }
 body {
@@ -40,4 +40,69 @@ q:before, q:after {
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+body {
+    font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #2b2b2b;
+}
+
+.content {
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+}
+
+header {
+    height: 50px;
+    background: #000000;
+    color: #bbbbbb;
+}
+
+header a {
+    color: #bbbbbb;
+    text-decoration: none;
+}
+
+header .content {
+    height: 50px;
+}
+
+header h1 {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+    margin: 0;
+    position: relative;
+    top: 11px;
+}
+
+header nav {
+    
+}
+
+header nav ul {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    overflow: hidden;
+}
+
+header nav li {
+    float: left;
+    padding: 0;
+    xbackground: red;
+}
+
+header nav li:last-child {
+    padding-right: 0;
+}
+
+header nav li a {
+    line-height: 50px;
+    padding: 24px 10px;
+    vertical-align: middle;
+}
+
+header nav li a:hover {
+    color: #ffffff;
 }
