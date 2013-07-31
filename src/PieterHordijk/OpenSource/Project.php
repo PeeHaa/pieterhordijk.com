@@ -45,6 +45,16 @@ class Project
     }
 
     /**
+     * Gets the id of the project
+     *
+     * @return int The id of the project
+     */
+    public function getId()
+    {
+        return $this->localData['id'];
+    }
+
+    /**
      * Gets the name of the project
      *
      * @return string The name of the project
@@ -52,6 +62,38 @@ class Project
     public function getName()
     {
         return $this->localData['name'];
+    }
+
+    /**
+     * Gets the slug of the project
+     *
+     * @return string The slug of the project
+     */
+    public function getSlug()
+    {
+        return $this->slugify($this->getName());
+    }
+
+    /**
+     * Slugifies the name of the project
+     *
+     * @param string $name The name of the project
+     *
+     * @return string The slugified name of the project
+     */
+    private function slugify($name)
+    {
+        $name = preg_replace('~[^\\pL\d]+~u', '-', $name);
+        $name = trim($name, '-');
+        $name = iconv('utf-8', 'us-ascii//TRANSLIT', $name);
+        $name = strtolower($name);
+        $name = preg_replace('~[^-\w]+~', '', $name);
+
+        if (empty($name)) {
+            return 'n-a';
+        }
+
+        return $name;
     }
 
     /**

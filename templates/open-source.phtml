@@ -23,8 +23,8 @@ $projects   = $collection->get();
         </tr>
     <?php } else { ?>
         <?php foreach ($projects as $project) { ?>
-            <tr>
-                <td class="name"><?php echo $project->getName(); ?></td>
+            <tr class="clickable">
+                <td class="name"><a href="/open-source/<?php echo $project->getId(); ?>/<?php echo $project->getSlug(); ?>"><?php echo $project->getName(); ?></a></td>
                 <td class="description"><?php echo $project->getShortDescription(); ?></td>
                 <td class="languages"><?php echo $project->getLanguage(); ?></td>
                 <td class="watchers"><?php echo $project->getWatchers(); ?></td>

@@ -18,6 +18,17 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers PieterHordijk\OpenSource\Project::__construct
+     * @covers PieterHordijk\OpenSource\Project::getId
+     */
+    public function testGetId()
+    {
+        $project = new Project(['id' => 11], []);
+
+        $this->assertSame(11, $project->getId());
+    }
+
+    /**
+     * @covers PieterHordijk\OpenSource\Project::__construct
      * @covers PieterHordijk\OpenSource\Project::getName
      */
     public function testGetName()
@@ -25,6 +36,19 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $project = new Project(['name' => 'foo'], []);
 
         $this->assertSame('foo', $project->getName());
+    }
+
+    /**
+     * @covers PieterHordijk\OpenSource\Project::__construct
+     * @covers PieterHordijk\OpenSource\Project::getSlug
+     * @covers PieterHordijk\OpenSource\Project::getName
+     * @covers PieterHordijk\OpenSource\Project::slugify
+     */
+    public function testGetSlug()
+    {
+        $project = new Project(['name' => 'Foo  with spaces é accents and what, not!'], []);
+
+        $this->assertSame('foo-with-spaces-e-accents-and-what-not', $project->getSlug());
     }
 
     /**
