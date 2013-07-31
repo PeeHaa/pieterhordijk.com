@@ -1,0 +1,3 @@
+[submodule "vendor/Artax"]
+	path = vendor/Artax
+	url = https://github.com/rdlowrey/Artax.git
