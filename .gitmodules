@@ -1,3 +1,6 @@
 [submodule "vendor/Artax"]
 	path = vendor/Artax
 	url = https://github.com/rdlowrey/Artax.git
+[submodule ".\\vendor\\MarkDownRewritten"]
+	path = .\\vendor\\MarkDownRewritten
+	url = https://github.com/PeeHaa/MarkdownRewritten.git
