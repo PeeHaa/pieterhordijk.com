@@ -270,3 +270,7 @@ main .info ul {
 main .info ul li {
     margin-left: 18px;
 }
+
+main .info img {
+    max-width: 590px;
+}
