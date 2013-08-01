@@ -3,7 +3,7 @@ use PieterHordijk\OpenSource\Collection,
     PieterHordijk\OpenSource\ProjectFactory,
     Artax\Client;
 
-$collection = new Collection($dbConnection, new Client(), new ProjectFactory());
+$collection = new Collection($dbConnection, new Client(), new ProjectFactory(), $apiStorage);
 $projects   = $collection->get();
 ?>
 
