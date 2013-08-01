@@ -14,7 +14,8 @@
 namespace PieterHordijk\OpenSource;
 
 use Artax\Client as HttpClient,
-    Artax\Response as HttpResponse;
+    Artax\Response as HttpResponse,
+    PieterHordijk\Security\Storage;
 
 /**
  * Collection of all open source projects
@@ -41,6 +42,11 @@ class Collection
     private $projectFactory;
 
     /**
+     * @var \PieterHordijk\Security\Storage The storage for the API key and secret
+     */
+    private $secureStorage;
+
+    /**
      * @var array List of responses
      */
     private $responses = [];
@@ -51,12 +57,19 @@ class Collection
      * @param \PDO $dbConnection                       The database connection
      * @param \Artax\Client                            Instance of the http client
      * @param \PieterHordijk\OpenSource\ProjectFactory Project factory
+     * @param \PieterHordijk\Security\Storage          Storage for the API key and secret
      */
-    public function __construct(\PDO $dbConnection, HttpClient $httpClient, ProjectFactory $projectFactory)
+    public function __construct(
+        \PDO $dbConnection,
+        HttpClient $httpClient,
+        ProjectFactory $projectFactory,
+        Storage $secureStorage
+    )
     {
         $this->dbConnection   = $dbConnection;
         $this->httpClient     = $httpClient;
         $this->projectFactory = $projectFactory;
+        $this->secureStorage  = $secureStorage;
     }
 
     /**
@@ -70,7 +83,7 @@ class Collection
 
         $repos = [];
         foreach ($projects as $project) {
-            $repos[$project['id']] = 'https://api.github.com/repos/' . $project['github'];
+            $repos[$project['id']] = 'https://api.github.com/repos/' . $project['github'] . $this->getOauthInfo();
         }
 
         $this->getFromGitHub($repos);
@@ -100,10 +113,18 @@ class Collection
         }
 
         $this->getFromGitHub([
-            $result['id'] => 'https://api.github.com/repos/' . $result['github'],
+            $result['id'] => 'https://api.github.com/repos/' . $result['github'] . $this->getOauthInfo(),
         ]);
 
-        return $this->parse([$result]);
+        $parsedProjects = $this->parse([$result]);
+
+        return reset($parsedProjects);
+    }
+
+    private function getOauthInfo()
+    {
+        return '?client_id=' . $this->secureStorage->get('id') . '&client_secret=' . $this->secureStorage->get('secret');
+        //client_id=xxxxxxxxxxxxxx&client_secret=yyyyyyyyyyyyyyyyyyyyy
     }
 
     /**

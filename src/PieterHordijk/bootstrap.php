@@ -22,3 +22,5 @@ $autoloader->register();
 require_once __DIR__ . '/../../vendor/password_compat/lib/password.php';
 
 require_once __DIR__ . '/../../vendor/Artax/autoload.php';
+
+require_once __DIR__ . '/../../vendor/MarkdownRewritten/Markdown.php';

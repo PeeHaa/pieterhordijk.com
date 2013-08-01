@@ -1,0 +1,28 @@
+<?php
+use PieterHordijk\OpenSource\Collection,
+    PieterHordijk\OpenSource\ProjectFactory,
+    Artax\Client;
+
+$path       = $request->getPath();
+$pathParts  = explode('/', $path);
+$collection = new Collection($dbConnection, new Client(), new ProjectFactory(), $apiStorage);
+$project    = $collection->getById($pathParts[2]);
+
+$markdown   = new Markdown();
+?>
+
+<aside>
+    <h1><?php echo $project->getName(); ?></h1>
+    <p><?php echo $project->getShortDescription(); ?></p>
+    <p><a href="https://github.com/<?php echo $project->getGitHubSlug(); ?>" target="_blank">View the project on GitHub</a></p>
+    <ul>
+        <li><a href="#" target="_blank">Download<strong>ZIP file</strong></a></li>
+        <li>Download<strong>TAR file</strong></li>
+        <li>Fork On<strong>GitHub</strong></li>
+        <li>Watchers<strong><?php echo $project->getWatchers(); ?></strong></li>
+        <li>Forks<strong><?php echo $project->getForks(); ?></strong></li>
+    </ul>
+</aside>
+<div class="info">
+    <?php echo $markdown->parse($project->getContent()); ?>
+</div>

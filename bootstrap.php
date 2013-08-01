@@ -15,7 +15,8 @@ namespace PieterHordijk;
 use PieterHordijk\Core\Autoloader,
     PieterHordijk\Http\Session,
     PieterHordijk\Http\Request,
-    PieterHordijk\Storage\Session as SessionStorage;
+    PieterHordijk\Storage\Session as SessionStorage,
+    PieterHordijk\Security\Storage;
 
 /**
  * Bootstrap the PitchBlade library
@@ -42,6 +43,13 @@ session_start();
 $request = new Request($_SERVER, $_GET, $_POST, $_COOKIE);
 
 /**
+ * Setup the GitHub API storage
+ */
+$apiStorage = new Storage();
+$apiStorage->set('id', $github['clientId']);
+$apiStorage->set('secret', $github['clientSecret']);
+
+/**
  * Setup the session object
  */
 //$session = new SessionStorage();
@@ -51,6 +59,8 @@ $request = new Request($_SERVER, $_GET, $_POST, $_COOKIE);
  */
 if ($request->getMethod() == 'GET' && $request->getPath() == '/open-source') {
     $template = __DIR__ . '/templates/open-source.phtml';
+} elseif ($request->getMethod() == 'GET' && strpos($request->getPath(), '/open-source') === 0) {
+    $template = __DIR__ . '/templates/open-source-project.phtml';
 } elseif ($request->getMethod() == 'GET' && $request->getPath() == '/about') {
     $template = __DIR__ . '/templates/about.phtml';
 } else {
