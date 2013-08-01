@@ -114,10 +114,10 @@ footer {
     color: #8c8989;
     background: #363839;
     height: 166px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    xposition: fixed;
+    xbottom: 0;
+    xleft: 0;
+    xright: 0;
 }
 
 footer .content > ul {
@@ -273,4 +273,14 @@ main .info ul li {
 
 main .info img {
     max-width: 490px;
+}
+
+main .slider {
+    position: relative;
+}
+
+main .slider-info {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
