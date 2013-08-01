@@ -25,3 +25,11 @@ $dbConnection = new \PDO(
         \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
     ]
 );
+
+/**
+ * GitHub API credentials
+ */
+$github = [
+    'clientId'     => '',
+    'clientSecret' => '',
+];
