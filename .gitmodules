@@ -4,3 +4,6 @@
 [submodule "vendor/MarkdownRewritten"]
 	path = vendor/MarkdownRewritten
 	url = https://github.com/PeeHaa/MarkdownRewritten.git
+[submodule "vendor/password_compat"]
+	path = vendor/password_compat
+	url = https://github.com/ircmaxell/password_compat.git
