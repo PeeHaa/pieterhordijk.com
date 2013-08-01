@@ -19,6 +19,11 @@ use PieterHordijk\Core\Autoloader,
     PieterHordijk\Security\Storage;
 
 /**
+ * Start the session
+ */
+session_start();
+
+/**
  * Bootstrap the PitchBlade library
  */
 require_once __DIR__ . '/src/PieterHordijk/bootstrap.php';
@@ -27,15 +32,6 @@ require_once __DIR__ . '/src/PieterHordijk/bootstrap.php';
  * Setup the environment specific settings
  */
 require_once __DIR__ . '/init.deployment.php';
-
-/**
- * Setup session
- */
-/*
-$session = new Session($dbConnection);
-session_set_save_handler($session, true);
-session_start();
-*/
 
 /**
  * Setup the request object
@@ -63,6 +59,10 @@ if ($request->getMethod() == 'GET' && $request->getPath() == '/open-source') {
     $template = __DIR__ . '/templates/open-source-project.phtml';
 } elseif ($request->getMethod() == 'GET' && $request->getPath() == '/demos') {
     $template = __DIR__ . '/templates/demos.phtml';
+} elseif ($request->getMethod() == 'GET' && $request->getPath() == '/contact') {
+    $template = __DIR__ . '/templates/contact.phtml';
+} elseif ($request->getMethod() == 'POST' && $request->getPath() == '/contact') {
+    $template = __DIR__ . '/templates/contact.phtml';
 } elseif ($request->getMethod() == 'GET' && $request->getPath() == '/about') {
     $template = __DIR__ . '/templates/about.phtml';
 } else {

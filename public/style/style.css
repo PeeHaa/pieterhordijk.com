@@ -275,12 +275,19 @@ main .info img {
     max-width: 490px;
 }
 
-main .slider {
-    position: relative;
+main table.contact textarea {
+    width: 850px;
+    height: 400px;
+    font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #2b2b2b;
 }
 
-main .slider-info {
-    position: absolute;
-    top: 0;
-    right: 0;
+main table.contact input[type="text"], main table.contact input[type="email"] {
+    width: 852px;
+    font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #2b2b2b;
+}
+
+main table.contact .error {
+    color: red;
 }

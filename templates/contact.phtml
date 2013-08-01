@@ -1,0 +1,108 @@
+<?php
+$form = [
+    'name' => [
+        'value' => null,
+        'error' => null,
+    ],
+    'email' => [
+        'value' => null,
+        'error' => null,
+    ],
+    'subject' => [
+        'value' => null,
+        'error' => null,
+    ],
+    'message' => [
+        'value' => null,
+        'error' => null,
+    ],
+];
+
+if (!isset($_SESSION['csrfToken'])) {
+    $_SESSION['csrfToken'] = preg_replace('/[^a-zA-Z0-9\s]/', '', base64_encode(mcrypt_create_iv(24, MCRYPT_DEV_URANDOM)));
+}
+
+if ($request->getMethod() === 'POST') {
+    $errors = false;
+
+    if ($request->getPostVariable('csrfToken', null) !== $_SESSION['csrfToken']) {
+        $errors = true;
+    }
+
+    if ($request->getPostVariable('email', null) !== null && !filter_var($request->getPostVariable('email', FILTER_VALIDATE_EMAIL))) {
+        $form['email']['error'] = 'Emailaddress is invalid';
+
+        $errors = true;
+    }
+
+    foreach ($form as $fieldName => $fieldData) {
+        $value = $request->getPostVariable($fieldName, null);
+        $form[$fieldName]['value'] = $value;
+
+        if (!trim($value)) {
+            $form[$fieldName]['error'] = ucfirst($fieldName) . ' is a required field.';
+
+            $errors = true;
+        }
+    }
+
+    if (!$errors) {
+        $headers = 'From: contactform@pieterhordijk.com' . "\r\n";
+        $headers.= 'Reply-To: contactform@pieterhordijk.com' . "\r\n";
+        $headers.= 'X-Mailer: PieterHordijk.com';
+
+        $message = '> Name: ' . $request->getPostVariable('name')."\r\n";
+        $message.= '> Emailaddress: ' . $request->getPostVariable('email')."\r\n";
+        $message.= '> Subject: ' . trim($request->getPostVariable('subject'))."\r\n\r\n";
+        $message.= '> '. $request->getPostVariable('subject');
+
+        mail('info@pieterhordjk.com', trim($request->getPostVariable('subject')), $request->getPostVariable('message'), $headers);
+
+        $url = $request->isSsl() ? 'https://' : 'http://';
+        $url.= $request->getHost();
+        $url.= '/contact-success';
+
+        header('Location: ' . $url);
+    }
+}
+?>
+
+<h1>Contact</h1>
+<p>To get in contact with me please fill out the contact form or contact me directly at {MyGitHubName}@php.net.</p>
+<form action="/contact" method="post">
+    <input type="hidden" name="csrfToken" value="<?php echo $_SESSION['csrfToken']; ?>">
+    <table class="contact">
+        <tr>
+            <th>Name</th>
+            <td>
+                <input type="text" name="name" value="<?php echo htmlspecialchars($form['name']['value'], ENT_QUOTES, 'UTF-8'); ?>">
+                <?php if ($form['name']['error']) { echo '<p class="error">' . $form['name']['error'] . '</p>'; } ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Emailaddress</th>
+            <td>
+                <input type="email" name="email" value="<?php echo htmlspecialchars($form['email']['value'], ENT_QUOTES, 'UTF-8'); ?>">
+                <?php if ($form['email']['error']) { echo '<p class="error">' . $form['email']['error'] . '</p>'; } ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Subject</th>
+            <td>
+                <input type="text" name="subject" value="<?php echo htmlspecialchars($form['subject']['value'], ENT_QUOTES, 'UTF-8'); ?>">
+                <?php if ($form['subject']['error']) { echo '<p class="error">' . $form['subject']['error'] . '</p>'; } ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Message</th>
+            <td>
+                <textarea name="message"><?php echo htmlspecialchars($form['message']['value'], ENT_QUOTES, 'UTF-8');?></textarea>
+                <?php if ($form['message']['error']) { echo '<p class="error">' . $form['message']['error'] . '</p>'; } ?>
+            </td>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <td><input type="submit" value="Send"></th>
+        </tr>
+    </table>
+</form>
