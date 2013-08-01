@@ -77,6 +77,17 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers PieterHordijk\OpenSource\Project::__construct
+     * @covers PieterHordijk\OpenSource\Project::getContent
+     */
+    public function testGetContent()
+    {
+        $project = new Project(['content' => 'foo'], []);
+
+        $this->assertSame('foo', $project->getContent());
+    }
+
+    /**
+     * @covers PieterHordijk\OpenSource\Project::__construct
      * @covers PieterHordijk\OpenSource\Project::getGitHubSlug
      */
     public function testGetGitHubSlug()

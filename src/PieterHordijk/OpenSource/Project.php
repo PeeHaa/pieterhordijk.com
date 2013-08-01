@@ -107,6 +107,16 @@ class Project
     }
 
     /**
+     * Gets the content of the project
+     *
+     * @return string The content of the project
+     */
+    public function getContent()
+    {
+        return $this->localData['content'];
+    }
+
+    /**
      * Gets the GitHub slug
      *
      * @return string The GitHub slug
