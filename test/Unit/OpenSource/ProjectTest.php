@@ -44,11 +44,24 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
      * @covers PieterHordijk\OpenSource\Project::getName
      * @covers PieterHordijk\OpenSource\Project::slugify
      */
-    public function testGetSlug()
+    public function testSlugify()
     {
         $project = new Project(['name' => 'Foo  with spaces é accents and what, not!'], []);
 
         $this->assertSame('foo-with-spaces-e-accents-and-what-not', $project->getSlug());
+    }
+
+    /**
+     * @covers PieterHordijk\OpenSource\Project::__construct
+     * @covers PieterHordijk\OpenSource\Project::getSlug
+     * @covers PieterHordijk\OpenSource\Project::getName
+     * @covers PieterHordijk\OpenSource\Project::slugify
+     */
+    public function testSlugifyFail()
+    {
+        $project = new Project(['name' => '☀'], []);
+
+        $this->assertSame('n-a', $project->getSlug());
     }
 
     /**
@@ -60,6 +73,17 @@ class ProjectTest extends \PHPUnit_Framework_TestCase
         $project = new Project(['description' => 'foo'], []);
 
         $this->assertSame('foo', $project->getShortDescription());
+    }
+
+    /**
+     * @covers PieterHordijk\OpenSource\Project::__construct
+     * @covers PieterHordijk\OpenSource\Project::getGitHubSlug
+     */
+    public function testGetGitHubSlug()
+    {
+        $project = new Project(['github' => 'PeeHaa/Slug'], []);
+
+        $this->assertSame('PeeHaa/Slug', $project->getGitHubSlug());
     }
 
     /**

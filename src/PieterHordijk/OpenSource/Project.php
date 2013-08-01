@@ -107,6 +107,16 @@ class Project
     }
 
     /**
+     * Gets the GitHub slug
+     *
+     * @return string The GitHub slug
+     */
+    public function getGitHubSlug()
+    {
+        return $this->localData['github'];
+    }
+
+    /**
      * Gets the languages of the project
      *
      * @return string The languages of the project
