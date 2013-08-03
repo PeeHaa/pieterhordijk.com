@@ -56,7 +56,7 @@ if ($request->getMethod() === 'POST') {
         $message.= '> Subject: ' . trim($request->getPostVariable('subject'))."\r\n\r\n";
         $message.= '> '. $request->getPostVariable('subject');
 
-        mail('info@pieterhordjk.com', trim($request->getPostVariable('subject')), $request->getPostVariable('message'), $headers);
+        mail('info@pieterhordijk.com', trim($request->getPostVariable('subject')), $message), $headers);
 
         $url = $request->isSsl() ? 'https://' : 'http://';
         $url.= $request->getHost();
