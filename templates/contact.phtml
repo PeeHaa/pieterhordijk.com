@@ -54,7 +54,9 @@ if ($request->getMethod() === 'POST') {
         $message = '> Name: ' . $request->getPostVariable('name')."\r\n";
         $message.= '> Emailaddress: ' . $request->getPostVariable('email')."\r\n";
         $message.= '> Subject: ' . trim($request->getPostVariable('subject'))."\r\n\r\n";
-        $message.= '> '. $request->getPostVariable('message');
+
+        $messageLines = explode("\r\n", trim($request->getPostVariable('subject')));
+        $message.= '> '. implode('> ', $messageLine);
 
         mail('info@pieterhordijk.com', trim($request->getPostVariable('subject')), $message, $headers);
 
