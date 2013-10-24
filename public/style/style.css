@@ -254,12 +254,16 @@ main .info {
     margin-left: 470px;
 }
 
+main .info-full {
+    margin-left: 0;
+}
+
 main .info code {
     border: 1px solid #dddddd;
     border-radius: 4px;
     padding: 0 4px;
     background: #eeeeee;
-    white-space: nowrap;
+    white-space: pre;
     font-family: monospace;
 }
 
