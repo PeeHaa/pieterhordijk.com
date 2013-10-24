@@ -1,0 +1,16 @@
+<?php
+
+use PieterHordijk\Tutorial\Item;
+
+$path       = $request->getPath();
+$pathParts  = explode('/', $path);
+$slug       = end($pathParts);
+$tutorial   = new Item($dbConnection);
+$content    = $tutorial->getBySlug($slug);
+
+$markdown   = new Markdown();
+
+echo '<div class="info info-full">';
+echo $markdown->parse($content);
+echo '</div>';
+?>

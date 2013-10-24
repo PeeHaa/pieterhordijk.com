@@ -1,6 +1,6 @@
 (function() {
     // handle click on entire table rows (open source)
-    var clickable = document.querySelectorAll('table.opensource tr.clickable');
+    var clickable = document.querySelectorAll('table.opensource tr.clickable, table.tutorials tr.clickable');
     if (clickable) {
         for (var i = 0, l = clickable.length; i < l; i++) {
             clickable[i].addEventListener('click', function(e) {

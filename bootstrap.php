@@ -59,6 +59,10 @@ if ($request->getMethod() == 'GET' && $request->getPath() == '/open-source') {
     $template = __DIR__ . '/templates/open-source-project.phtml';
 } elseif ($request->getMethod() == 'GET' && $request->getPath() == '/demos') {
     $template = __DIR__ . '/templates/demos.phtml';
+} elseif ($request->getMethod() == 'GET' && $request->getPath() == '/tutorials') {
+    $template = __DIR__ . '/templates/tutorials.phtml';
+} elseif ($request->getMethod() == 'GET' && strpos($request->getPath(), '/tutorials') === 0) {
+    $template = __DIR__ . '/templates/tutorial-item.phtml';
 } elseif ($request->getMethod() == 'GET' && $request->getPath() == '/contact') {
     $template = __DIR__ . '/templates/contact.phtml';
 } elseif ($request->getMethod() == 'POST' && $request->getPath() == '/contact') {
